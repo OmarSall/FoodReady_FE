@@ -5,17 +5,16 @@ import CompanyOwnerForm, {
 import {
   registerCompany,
   type RegisterCompanyResponse,
-} from '../../api/registerCompanyApi';
-import { ApiError } from '../../lib/http';
+} from '../../api/registerCompanyApi.ts';
+import { ApiError } from '../../../../lib/http';
 import Modal from '../../modals/RegistrationModal';
-import styles from "./CompanyRegistrationPage.module.css";
+import styles from './CompanyRegistrationPage.module.css';
 
 function CompanyRegistrationPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successData, setSuccessData] = useState<RegisterCompanyResponse | null>(
-    null,
-  );
+  const [successData, setSuccessData] =
+    useState<RegisterCompanyResponse | null>(null);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   const handleSubmit = async (values: CompanyOwnerFormValues) => {

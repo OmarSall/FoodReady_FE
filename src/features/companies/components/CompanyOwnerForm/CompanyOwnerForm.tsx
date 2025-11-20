@@ -5,7 +5,6 @@ export interface CompanyOwnerFormValues {
   companyName: string;
   email: string;
   password: string;
-  slugUrl?: string;
 }
 
 interface CompanyOwnerFormProps {
@@ -15,15 +14,14 @@ interface CompanyOwnerFormProps {
 }
 
 function CompanyOwnerForm({
-                            onSubmit,
-                            isSubmitting = false,
-                            errorMessage = null,
-                          }: CompanyOwnerFormProps) {
+  onSubmit,
+  isSubmitting = false,
+  errorMessage = null,
+}: CompanyOwnerFormProps) {
   const [formValues, setFormValues] = useState<CompanyOwnerFormValues>({
     companyName: '',
     email: '',
     password: '',
-    slugUrl: '',
   });
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +38,6 @@ function CompanyOwnerForm({
 
     const payload: CompanyOwnerFormValues = {
       ...formValues,
-      slugUrl: formValues.slugUrl || undefined,
     };
 
     onSubmit(payload);
@@ -93,24 +90,6 @@ function CompanyOwnerForm({
           required
           minLength={8}
         />
-      </div>
-
-      <div className={styles.field}>
-        <label htmlFor="slugUrl" className={styles.label}>
-          Company URL slug (optional)
-        </label>
-        <input
-          id="slugUrl"
-          name="slugUrl"
-          type="text"
-          className={styles.input}
-          placeholder="my-company-name"
-          value={formValues.slugUrl ?? ''}
-          onChange={handleChange}
-        />
-        <p className={styles.helperText}>
-          If you leave this empty, we will generate it from your company name.
-        </p>
       </div>
 
       {errorMessage && <div className={styles.error}>{errorMessage}</div>}
