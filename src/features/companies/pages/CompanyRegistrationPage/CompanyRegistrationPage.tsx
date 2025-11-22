@@ -6,7 +6,7 @@ import {
   registerCompany,
   type RegisterCompanyResponse,
 } from '../../api/registerCompanyApi.ts';
-import { ApiError } from '../../../../lib/http/http.ts';
+import { ApiError } from '../../../../lib/http/api-error.ts';
 import Modal from '../../modals/RegistrationModal';
 import styles from './CompanyRegistrationPage.module.css';
 
