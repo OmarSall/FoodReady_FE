@@ -1,5 +1,5 @@
 import { ENDPOINTS } from './companies.endpoints.ts';
-import { http } from '../../../lib/http.ts';
+import { http } from '../../../lib/http/http.ts';
 
 export interface RegisterCompanyPayload {
   companyName: string;

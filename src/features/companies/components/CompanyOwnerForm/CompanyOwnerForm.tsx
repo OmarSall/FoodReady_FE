@@ -1,5 +1,5 @@
-import { type ChangeEvent, type FormEvent, useState } from 'react';
 import styles from './CompanyOwnerForm.module.css';
+import { useForm } from 'react-hook-form';
 
 export interface CompanyOwnerFormValues {
   companyName: string;
@@ -18,32 +18,20 @@ function CompanyOwnerForm({
   isSubmitting = false,
   errorMessage = null,
 }: CompanyOwnerFormProps) {
-  const [formValues, setFormValues] = useState<CompanyOwnerFormValues>({
-    companyName: '',
-    email: '',
-    password: '',
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CompanyOwnerFormValues>({
+    defaultValues: {
+      companyName: '',
+      email: '',
+      password: '',
+    },
   });
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setFormValues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (event: FormEvent) => {
-    event.preventDefault();
-
-    const payload: CompanyOwnerFormValues = {
-      ...formValues,
-    };
-
-    onSubmit(payload);
-  };
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <h1 className={styles.title}>Register your company</h1>
 
       <div className={styles.field}>
@@ -52,13 +40,15 @@ function CompanyOwnerForm({
         </label>
         <input
           id="companyName"
-          name="companyName"
           type="text"
           className={styles.input}
-          value={formValues.companyName}
-          onChange={handleChange}
-          required
+          {...register('companyName', {
+            required: 'Company name is required',
+          })}
         />
+        {errors.companyName && (
+          <div className={styles.error}>{errors.companyName.message}</div>
+        )}
       </div>
 
       <div className={styles.field}>
@@ -67,13 +57,19 @@ function CompanyOwnerForm({
         </label>
         <input
           id="email"
-          name="email"
           type="email"
           className={styles.input}
-          value={formValues.email}
-          onChange={handleChange}
-          required
+          {...register('email', {
+            required: 'Email is required',
+            pattern: {
+              value: /^\S+@\S+\.\S+$/,
+              message: 'Please enter a valid email address',
+            },
+          })}
         />
+        {errors.email && (
+          <div className={styles.error}>{errors.email.message}</div>
+        )}
       </div>
 
       <div className={styles.field}>
@@ -82,14 +78,19 @@ function CompanyOwnerForm({
         </label>
         <input
           id="password"
-          name="password"
           type="password"
           className={styles.input}
-          value={formValues.password}
-          onChange={handleChange}
-          required
-          minLength={8}
+          {...register('password', {
+            required: 'Password is required',
+            minLength: {
+              value: 8,
+              message: 'Password must be at least 8 characters long',
+            },
+          })}
         />
+        {errors.password && (
+          <div className={styles.error}>{errors.password.message}</div>
+        )}
       </div>
 
       {errorMessage && <div className={styles.error}>{errorMessage}</div>}
