@@ -1,24 +1,21 @@
-import { ENDPOINTS } from './companies.endpoints.ts';
 import { http } from '../../../lib/http/http.ts';
 
 export interface RegisterCompanyPayload {
   companyName: string;
   email: string;
   password: string;
-  slugUrl?: string;
 }
 
 export interface Company {
   id: number;
   name: string;
-  slugUrl: string;
 }
 
 export interface Employee {
   id: number;
   email: string;
-  name: string; // "OWNER"
-  position: string; // "OWNER"
+  name: string;
+  position: string;
   companyId: number;
 }
 
@@ -31,7 +28,7 @@ export function registerCompany(
   payload: RegisterCompanyPayload,
 ): Promise<RegisterCompanyResponse> {
   return http.post<RegisterCompanyResponse>(
-    ENDPOINTS.COMPANIES.REGISTER,
+    '/companies/register',
     payload,
   );
 }

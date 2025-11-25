@@ -50,16 +50,12 @@ function CompanyRegistrationPage() {
       />
 
       <Modal
-        isOpen={isSuccessModalOpen && !!successData}
+        isOpen={isSuccessModalOpen && Boolean(successData)}
         title="Company registered successfully!"
         onClose={handleCloseSuccessModal}
       >
         {successData && (
           <>
-            <p>
-              Company: <b>{successData.company.name}</b> (slug:{' '}
-              <code>{successData.company.slugUrl}</code>)
-            </p>
             <p>
               Owner account: <b>{successData.owner.email}</b>
             </p>
