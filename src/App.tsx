@@ -1,6 +1,6 @@
 import './App.css';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import CompanyRegistrationPage from './features/companies/pages/CompanyRegistrationPage/CompanyRegistrationPage';
+import CompanyRegistrationPage from './components/CompaniesPage/CompanyRegistrationPage/CompanyRegistrationPage';
 
 function App() {
   return (

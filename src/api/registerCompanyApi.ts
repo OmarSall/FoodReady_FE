@@ -1,4 +1,4 @@
-import { http } from '../../../lib/http/http.ts';
+import { request } from '../http/request.ts';
 
 export interface RegisterCompanyPayload {
   companyName: string;
@@ -27,8 +27,7 @@ export interface RegisterCompanyResponse {
 export function registerCompany(
   payload: RegisterCompanyPayload,
 ): Promise<RegisterCompanyResponse> {
-  return http.post<RegisterCompanyResponse>(
-    '/companies/register',
-    payload,
-  );
+  return request<RegisterCompanyResponse>("POST","/companies/register", {
+    body:payload,
+  })
 }

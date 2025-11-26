@@ -5,6 +5,7 @@ export interface CompanyOwnerFormValues {
   companyName: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
 interface CompanyOwnerFormProps {
@@ -86,6 +87,19 @@ function CompanyOwnerForm({
               value: 8,
               message: 'Password must be at least 8 characters long',
             },
+          })}
+        />
+        <label htmlFor="confirmPassword" className={styles.label}>
+          Confirm Password
+        </label>
+        <input
+          id="confirmPassword"
+          type="password"
+          className={styles.input}
+          {...register('confirmPassword', {
+            required: 'Please confirm your password',
+            validate: (value, formValues) =>
+              value === formValues.password || 'Passwords do not match',
           })}
         />
         {errors.password && (

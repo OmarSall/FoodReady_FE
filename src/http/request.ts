@@ -1,10 +1,17 @@
-import { API_BASE_URL } from '../../constants/api.ts';
+import { API_BASE_URL } from '../constants/api.ts';
 import { ApiError, getErrorMessage, getErrorMetadata } from './api-error.ts';
 
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 
 interface RequestOptions {
   body?: unknown;
+}
+
+const parseBody = (response: Response) => {
+  if (response.headers.get('content-type')?.includes('application/json')) {
+    return response.json();
+  }
+  return null;
 }
 
 export async function request<TResponse>(
@@ -24,27 +31,15 @@ export async function request<TResponse>(
     body: options.body ? JSON.stringify(options.body) : undefined,
   });
 
-  let parsedBody: unknown = null;
-
-  try {
-    parsedBody = await response.json();
-  } catch {
-    if (response.status !== 204) {
-      throw new ApiError(
-        'Failed to parse JSON response from server',
-        response.status,
-        'Invalid JSON',
-      );
-    }
-  }
+  const parsedBody = await parseBody(response);
 
   if (!response.ok) {
-    const message = getErrorMessage(parsedBody);
-    const { statusCode, backendError } = getErrorMetadata(
+    const errorMessage = getErrorMessage(parsedBody);
+    const { statusCode, rawMessage } = getErrorMetadata(
       parsedBody,
       response.status,
     );
-    throw new ApiError(message, statusCode, backendError);
+    throw new ApiError(errorMessage, statusCode, rawMessage);
   }
 
   return parsedBody as TResponse;
