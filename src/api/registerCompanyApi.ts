@@ -27,7 +27,7 @@ export interface RegisterCompanyResponse {
 export function registerCompany(
   payload: RegisterCompanyPayload,
 ): Promise<RegisterCompanyResponse> {
-  return request<RegisterCompanyResponse>("POST","/companies/register", {
-    body:payload,
-  })
+  return request<RegisterCompanyResponse>('POST', '/companies/register', {
+    body: payload,
+  });
 }

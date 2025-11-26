@@ -12,7 +12,7 @@ const parseBody = (response: Response) => {
     return response.json();
   }
   return null;
-}
+};
 
 export async function request<TResponse>(
   method: HttpMethod,

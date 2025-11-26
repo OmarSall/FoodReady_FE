@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navigate to='/register-company' replace />} />
+        <Route path="/" element={<Navigate to="/register-company" replace />} />
         <Route path="/register-company" element={<CompanyRegistrationPage />} />
       </Routes>
     </>
