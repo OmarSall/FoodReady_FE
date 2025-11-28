@@ -9,6 +9,7 @@ import {
 import { ApiError } from '../../../http/api-error.ts';
 import Modal from '../../modals/RegistrationModal.tsx';
 import styles from './CompanyRegistrationPage.module.css';
+import { Link } from 'react-router-dom';
 
 function CompanyRegistrationPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,12 +44,27 @@ function CompanyRegistrationPage() {
 
   return (
     <div className={styles.page}>
-      <CompanyOwnerForm
-        onSubmit={handleSubmit}
-        isSubmitting={isSubmitting}
-        errorMessage={errorMessage}
-      />
-
+      <div className={styles.container}>
+        <CompanyOwnerForm
+          onSubmit={handleSubmit}
+          isSubmitting={isSubmitting}
+          errorMessage={errorMessage}
+        />
+        <div className={styles.links}>
+          <p className={styles.linkText}>
+            Already have a company?{' '}
+            <Link to="/login" className={styles.link}>
+              Log in
+            </Link>
+          </p>
+          <p className={styles.linkText}>
+            Back to{' '}
+            <Link to="/" className={styles.link}>
+              welcome page
+            </Link>
+          </p>
+        </div>
+      </div>
       <Modal
         isOpen={isSuccessModalOpen && Boolean(successData)}
         title="Company registered successfully!"
