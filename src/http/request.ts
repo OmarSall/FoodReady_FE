@@ -29,6 +29,7 @@ export async function request<TResponse>(
     method,
     headers,
     body: options.body ? JSON.stringify(options.body) : undefined,
+    credentials: "include"
   });
 
   const parsedBody = await parseBody(response);
