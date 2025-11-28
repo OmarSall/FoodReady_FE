@@ -1,0 +1,87 @@
+.page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #020617, #0f172a, #1e293b);
+    color: #f9fafb;
+    box-sizing: border-box;
+}
+
+.card {
+    max-width: 480px;
+    width: 100%;
+    padding: 2.5rem 2rem;
+    border-radius: 1rem;
+    background-color: rgba(15, 23, 42, 0.95);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    color: #cbd5f5;
+    margin-bottom: 2rem;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.primaryButton,
+.secondaryButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition:
+            transform 0.1s ease,
+            box-shadow 0.1s ease,
+            background-color 0.1s ease,
+            border-color 0.1s ease;
+}
+
+.primaryButton {
+    background-color: #22c55e;
+    color: #022c22;
+    box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4);
+}
+
+.primaryButton:hover {
+    background-color: #16a34a;
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px rgba(34, 197, 94, 0.5);
+}
+
+.secondaryButton {
+    background-color: transparent;
+    color: #e5e7eb;
+    border: 1px solid #4b5563;
+}
+
+.secondaryButton:hover {
+    background-color: rgba(15, 23, 42, 0.9);
+    border-color: #9ca3af;
+}
+
+.helperText {
+    font-size: 0.8rem;
+    color: #9ca3af;
+    margin-top: 0.5rem;
+}
