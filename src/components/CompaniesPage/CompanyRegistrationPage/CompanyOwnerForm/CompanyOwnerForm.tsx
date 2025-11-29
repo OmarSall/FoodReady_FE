@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 
 export interface CompanyOwnerFormValues {
   companyName: string;
+  ownerName: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -26,6 +27,7 @@ function CompanyOwnerForm({
   } = useForm<CompanyOwnerFormValues>({
     defaultValues: {
       companyName: '',
+      ownerName: '',
       email: '',
       password: '',
     },
@@ -58,7 +60,28 @@ function CompanyOwnerForm({
           </div>
         )}
       </div>
-
+      <label htmlFor="ownerName" className={styles.label}>
+        Owner name
+      </label>
+      <input
+        id="ownerName"
+        type="text"
+        className={`${styles.input} ${
+          errors.ownerName ? styles.inputError : ''
+        }`}
+        aria-invalid={Boolean(errors.ownerName)}
+        aria-describedby={
+          errors.ownerName ? 'ownerName-error' : undefined
+        }
+        {...register('ownerName', {
+          required: 'Owner name is required',
+        })}
+      />
+      {errors.ownerName?.message && (
+        <div id="ownerName-error" className={styles.error}>
+          {errors.ownerName.message}
+        </div>
+      )}
       <div className={styles.field}>
         <label htmlFor="email" className={styles.label}>
           Owner email

@@ -9,7 +9,7 @@ import {
 import { ApiError } from '../../../http/api-error.ts';
 import Modal from '../../modals/RegistrationModal.tsx';
 import styles from './CompanyRegistrationPage.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function CompanyRegistrationPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -17,6 +17,7 @@ function CompanyRegistrationPage() {
   const [successData, setSuccessData] =
     useState<RegisterCompanyResponse | null>(null);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (values: CompanyOwnerFormValues) => {
     setIsSubmitting(true);
@@ -40,6 +41,7 @@ function CompanyRegistrationPage() {
 
   const handleCloseSuccessModal = () => {
     setIsSuccessModalOpen(false);
+    navigate('/login', { replace: true });
   };
 
   return (

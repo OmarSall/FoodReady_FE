@@ -7,7 +7,7 @@ export interface LogInPayload {
 }
 
 export async function logIn(payload: LogInPayload): Promise<AuthenticatedUser> {
-  return request<AuthenticatedUser>('POST', 'authentication/log-in', {
+  return request<AuthenticatedUser>('POST', '/authentication/log-in', {
     body: payload,
   });
 }
