@@ -1,5 +1,6 @@
 import styles from './CompanyOwnerForm.module.css';
 import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
 
 export interface CompanyOwnerFormValues {
   companyName: string;
@@ -13,25 +14,35 @@ interface CompanyOwnerFormProps {
   onSubmit: (values: CompanyOwnerFormValues) => void;
   isSubmitting?: boolean;
   errorMessage?: string | null;
+  successMessage?: string | null;
 }
 
 function CompanyOwnerForm({
   onSubmit,
   isSubmitting = false,
   errorMessage = null,
+  successMessage = null,
 }: CompanyOwnerFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<CompanyOwnerFormValues>({
     defaultValues: {
       companyName: '',
       ownerName: '',
       email: '',
       password: '',
+      confirmPassword: '',
     },
   });
+
+  useEffect(() => {
+    if (successMessage) {
+      reset();
+    }
+  }, [successMessage, reset]);
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
@@ -54,7 +65,7 @@ function CompanyOwnerForm({
             required: 'Company name is required',
           })}
         />
-        {errors.companyName?.message && (
+        {errors.companyName && (
           <div id="companyName-error" className={styles.error}>
             {errors.companyName.message}
           </div>
@@ -70,9 +81,7 @@ function CompanyOwnerForm({
           errors.ownerName ? styles.inputError : ''
         }`}
         aria-invalid={Boolean(errors.ownerName)}
-        aria-describedby={
-          errors.ownerName ? 'ownerName-error' : undefined
-        }
+        aria-describedby={errors.ownerName ? 'ownerName-error' : undefined}
         {...register('ownerName', {
           required: 'Owner name is required',
         })}
@@ -115,12 +124,10 @@ function CompanyOwnerForm({
           id="password"
           type="password"
           className={`${styles.input} ${
-            errors.companyName ? styles.inputError : ''
+            errors.password ? styles.inputError : ''
           }`}
-          aria-invalid={Boolean(errors.companyName)}
-          aria-describedby={
-            errors.companyName ? 'companyName-error' : undefined
-          }
+          aria-invalid={Boolean(errors.password)}
+          aria-describedby={errors.password ? 'password-error' : undefined}
           {...register('password', {
             required: 'Password is required',
             minLength: {
@@ -129,6 +136,11 @@ function CompanyOwnerForm({
             },
           })}
         />
+        {errors.password?.message && (
+          <div id="password-error" className={styles.error}>
+            {errors.password.message}
+          </div>
+        )}
         <label htmlFor="confirmPassword" className={styles.label}>
           Confirm Password
         </label>
@@ -148,15 +160,14 @@ function CompanyOwnerForm({
               value === formValues.password || 'Passwords do not match',
           })}
         />
-        {errors.password?.message && (
+        {errors.confirmPassword?.message && (
           <div id="confirmPassword-error" className={styles.error}>
             {errors.confirmPassword?.message}
           </div>
         )}
       </div>
 
-      {errorMessage &&
-        <div className={styles.formError}>{errorMessage}</div>}
+      {errorMessage && <div className={styles.formError}>{errorMessage}</div>}
 
       <button
         type="submit"

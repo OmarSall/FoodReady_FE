@@ -20,8 +20,8 @@ function WelcomePage() {
                 Log in
               </Link>
               <p className={styles.helperText}>
-                Owners register a company and create employee accounts. Employees
-                and owners that registered their company can login.
+                Owners register a company and create employee accounts.
+                Employees and owners that registered their company can login.
               </p>
             </div>
           </section>

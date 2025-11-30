@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../auth/AuthContext.tsx';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { logIn } from '../../../api/loginApi.ts';
 import LoginForm, { type LoginFormValues } from './LoginForm/LoginForm.tsx';
 import { ApiError } from '../../../http/api-error.ts';
@@ -8,25 +8,23 @@ import styles from './LoginPage.module.css';
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { isAuthenticated, refreshUser } = useAuth();
+  const { refreshUser } = useAuth();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/', { replace: true });
-    }
-  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (values: LoginFormValues) => {
     setIsSubmitting(true);
     setErrorMessage(null);
 
     try {
-      await logIn(values);
+      const authenticatedUser = await logIn(values);
       await refreshUser();
-      navigate('/', { replace: true });
+      if (authenticatedUser.position === 'OWNER') {
+        navigate('/owner', { replace: true });
+      } else {
+        navigate('/', { replace: true });
+      }
     } catch (error) {
       if (error instanceof ApiError) {
         setErrorMessage(error.message || 'Failed to log in.');

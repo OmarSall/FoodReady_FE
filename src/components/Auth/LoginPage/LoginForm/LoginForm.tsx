@@ -37,13 +37,9 @@ function LoginForm({
         <input
           id="email"
           type="email"
-          className={`${styles.input} ${
-            errors.email ? styles.inputError : ''
-          }`}
+          className={`${styles.input} ${errors.email ? styles.inputError : ''}`}
           aria-invalid={Boolean(errors.email)}
-          aria-describedby={
-          errors.email ? 'email-error' : undefined
-          }
+          aria-describedby={errors.email ? 'email-error' : undefined}
           autoComplete="email"
           {...register('email', {
             required: 'Email is required',
@@ -82,9 +78,7 @@ function LoginForm({
         <div className={styles.error}>{errors.password.message}</div>
       )}
       {errorMessage && <div className={styles.formError}>{errorMessage}</div>}
-      <button>
-        {isSubmitting ? 'Logging in...' : 'Log in'}
-      </button>
+      <button>{isSubmitting ? 'Logging in...' : 'Log in'}</button>
     </form>
   );
 }

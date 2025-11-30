@@ -18,6 +18,7 @@ interface AuthContextValue {
   authError: string | null;
   refreshUser: () => Promise<void>;
   clearUser: () => void;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -66,6 +67,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setAuthError(null);
   };
 
+  const logout = async () => {
+    try {
+      await request('POST', '/authentication/log-out');
+    } catch (error) {
+      console.warn('Failed to log out', error);
+    } finally {
+      clearUser();
+    }
+  };
+
   useEffect(() => {
     void refreshUser();
   }, []);
@@ -79,6 +90,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     authError,
     refreshUser,
     clearUser,
+    logout,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -51,6 +51,9 @@ function CompanyRegistrationPage() {
           onSubmit={handleSubmit}
           isSubmitting={isSubmitting}
           errorMessage={errorMessage}
+          successMessage={
+            successData ? 'Company registered successfully' : null
+          }
         />
         <div className={styles.links}>
           <p className={styles.linkText}>

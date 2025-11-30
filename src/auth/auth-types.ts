@@ -4,4 +4,8 @@ export interface AuthenticatedUser {
   email: string;
   position: 'OWNER' | 'EMPLOYEE';
   companyId: number;
+  company?: {
+    id: number;
+    name: string;
+  };
 }
