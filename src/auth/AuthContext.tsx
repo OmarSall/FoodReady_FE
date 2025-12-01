@@ -8,6 +8,7 @@ import {
 import { request } from '../http/request.ts';
 import { isApiError, isUnauthorized } from './auth-helpers.ts';
 import type { AuthenticatedUser } from './auth-types.ts';
+import { logOut } from '../api/logoutApi.ts'
 
 interface AuthContextValue {
   user: AuthenticatedUser | null;
@@ -69,7 +70,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const logout = async () => {
     try {
-      await request('POST', '/authentication/log-out');
+      await logOut();
     } catch (error) {
       console.warn('Failed to log out', error);
     } finally {
