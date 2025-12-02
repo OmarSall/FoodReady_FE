@@ -82,11 +82,11 @@ function EmployeeDashboardPage() {
       setUpdatingOrderId(id);
 
       try {
-        const updatedOrder = await updateOrderStatus(id, { status });
+        await updateOrderStatus(id, { status });
 
         setOrders((previousOrders) =>
           previousOrders.map((order) =>
-            order.id === id ? { ...order, status: updatedOrder.status } : order,
+            order.id === id ? { ...order, status } : order,
           ),
         );
       } catch (error) {

@@ -31,6 +31,6 @@ export async function getOrders(): Promise<Order[]> {
 export async function updateOrderStatus(
   id: number,
   payload: UpdateOrderStatusPayload,
-): Promise<Order> {
-  return request<Order>('PATCH', `/orders/${id}`, { body: payload });
+): Promise<void> {
+  return request('PATCH', `/orders/${id}`, { body: payload });
 }
