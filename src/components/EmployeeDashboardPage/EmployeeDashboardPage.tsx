@@ -9,7 +9,9 @@ import {
   updateOrderStatus,
 } from '../../api/ordersApi';
 import { ApiError } from '../../http/api-error';
-import CreateOrderForm, { type CreateOrderFormValues } from './CreateOrderForm/CreateOrderForm.tsx';
+import CreateOrderForm, {
+  type CreateOrderFormValues,
+} from './CreateOrderForm/CreateOrderForm.tsx';
 import styles from './EmployeeDashboardPage.module.css';
 import OrdersList from './OrdersList';
 
@@ -80,7 +82,7 @@ function EmployeeDashboardPage() {
       setUpdatingOrderId(id);
 
       try {
-        const updatedOrder = await updateOrderStatus( id, { status });
+        const updatedOrder = await updateOrderStatus(id, { status });
 
         setOrders((previousOrders) =>
           previousOrders.map((order) =>
@@ -113,33 +115,29 @@ function EmployeeDashboardPage() {
             <div>
               <h1 className={styles.title}>Employee dashboard</h1>
               <p className={styles.subtitle}>
-                Welcome, {' '}
+                Welcome,{' '}
                 <span className={styles.highlight}>
                   {user?.name ?? 'Employee'}
                 </span>
               </p>
             </div>
             <button
-            type="button"
-            className={styles.logoutButton}
-            onClick={handleLogOut}
+              type="button"
+              className={styles.logoutButton}
+              onClick={handleLogOut}
             >
               Log out
             </button>
           </header>
           <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>
-              Your Company
-            </h2>
+            <h2 className={styles.sectionTitle}>Your Company</h2>
             <p className={styles.sectionText}>
               You are logged in as an <strong>EMPLOYEE</strong> of{' '}
               <strong>{user?.company?.name}</strong>.
             </p>
           </div>
           <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>
-              Orders
-            </h2>
+            <h2 className={styles.sectionTitle}>Orders</h2>
             <p className={styles.sectionText}>
               Create new orders and update their status as you work on them.
             </p>
@@ -157,9 +155,7 @@ function EmployeeDashboardPage() {
               <p className={styles.sectionText}>Loading orders...</p>
             )}
 
-            {ordersError && (
-              <p className={styles.sectionText}>{ordersError}</p>
-            )}
+            {ordersError && <p className={styles.sectionText}>{ordersError}</p>}
 
             {!isLoadingOrders && !ordersError && (
               <OrdersList

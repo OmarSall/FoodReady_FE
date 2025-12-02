@@ -15,10 +15,10 @@ const STATUS_OPTIONS: OrderStatus[] = [
 ];
 
 function OrdersList({
-                      orders,
-                      onStatusChange,
-                      isUpdatingId = null,
-                    }: OrdersListProps) {
+  orders,
+  onStatusChange,
+  isUpdatingId = null,
+}: OrdersListProps) {
   if (orders.length === 0) {
     return (
       <div className={styles.sectionText}>
@@ -33,9 +33,7 @@ function OrdersList({
           <div className={styles.orderInfo}>
             <div className={styles.orderTitle}>{order.title}</div>
             {order.description && (
-              <div className={styles.orderDescription}>
-                {order.description}
-              </div>
+              <div className={styles.orderDescription}>{order.description}</div>
             )}
             <div className={styles.orderMeta}>
               Status: <strong>{order.status}</strong>
