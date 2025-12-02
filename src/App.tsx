@@ -5,6 +5,8 @@ import WelcomePage from './components/WelcomePage/WelcomePage.tsx';
 import LoginPage from './components/Auth/LoginPage/LoginPage.tsx';
 import OwnerDashboardPage from './components/OwnerDashboard/OwnerDashboardPage.tsx';
 import OwnerRoute from './components/Auth/OwnerRoute.tsx';
+import EmployeeDashboardPage from './components/EmployeeDashboardPage/EmployeeDashboardPage.tsx';
+import EmployeeRoute from './components/Auth/EmployeeRoute.tsx';
 
 function App() {
   return (
@@ -21,6 +23,15 @@ function App() {
             </OwnerRoute>
           }
         />
+        <Route
+          path="/employee"
+          element={
+            <EmployeeRoute>
+              <EmployeeDashboardPage />
+            </EmployeeRoute>
+          }
+        />
+
       </Routes>
     </>
   );

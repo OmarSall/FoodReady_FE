@@ -8,7 +8,7 @@ import {
 import { request } from '../http/request.ts';
 import { isApiError, isUnauthorized } from './auth-helpers.ts';
 import type { AuthenticatedUser } from './auth-types.ts';
-import { logOut } from '../api/logoutApi.ts'
+import { logOut } from '../api/logoutApi.ts';
 
 interface AuthContextValue {
   user: AuthenticatedUser | null;

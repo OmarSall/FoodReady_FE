@@ -23,7 +23,7 @@ function LoginPage() {
       if (authenticatedUser.position === 'OWNER') {
         navigate('/owner', { replace: true });
       } else {
-        navigate('/', { replace: true });
+        navigate('/employee', { replace: true });
       }
     } catch (error) {
       if (error instanceof ApiError) {
