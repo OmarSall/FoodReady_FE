@@ -1,4 +1,4 @@
-import { ApiError } from '../http/api-error.ts';
+import { ApiError } from '../http/api-error';
 
 export function isApiError(error: unknown): error is ApiError {
   return error instanceof ApiError;

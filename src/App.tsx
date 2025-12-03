@@ -1,7 +1,7 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import CompanyRegistrationPage from './components/CompaniesPage/CompanyRegistrationPage/CompanyRegistrationPage';
-import WelcomePage from './components/WelcomePage/WelcomePage.tsx';
+import WelcomePage from './components/WelcomePage/WelcomePage';
 
 function App() {
   return (

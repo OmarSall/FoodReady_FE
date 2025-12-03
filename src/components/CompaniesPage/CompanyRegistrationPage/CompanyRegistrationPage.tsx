@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import CompanyOwnerForm, {
   type CompanyOwnerFormValues,
-} from './CompanyOwnerForm/CompanyOwnerForm.tsx';
+} from './CompanyOwnerForm/CompanyOwnerForm';
 import {
   registerCompany,
   type RegisterCompanyResponse,
-} from '../../../api/registerCompanyApi.ts';
-import { ApiError } from '../../../http/api-error.ts';
-import Modal from '../../modals/RegistrationModal.tsx';
+} from '../../../api/registerCompanyApi';
+import { ApiError } from '../../../http/api-error';
+import Modal from '../../modals/RegistrationModal';
 import styles from './CompanyRegistrationPage.module.css';
 
 function CompanyRegistrationPage() {
