@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../auth/AuthContext';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { logIn } from '../../../api/loginApi';
 import LoginForm, { type LoginFormValues } from './LoginForm/LoginForm';
 import { ApiError } from '../../../http/api-error';
@@ -8,24 +8,18 @@ import styles from './LoginPage.module.css';
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { isAuthenticated, refreshUser } = useAuth();
+  const { login } = useAuth();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/', { replace: true });
-    }
-  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (values: LoginFormValues) => {
     setIsSubmitting(true);
     setErrorMessage(null);
 
     try {
-      await logIn(values);
-      await refreshUser();
+      const authenticatedUser = await logIn(values);
+      login(authenticatedUser);
       navigate('/', { replace: true });
     } catch (error) {
       if (error instanceof ApiError) {
