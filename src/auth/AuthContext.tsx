@@ -55,7 +55,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
       console.error('Unexpected error while refreshing current user', error);
       setAuthError('Unexpected error. Please try again later.');
-      return;
     } finally {
       setIsLoading(false);
     }
