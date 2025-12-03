@@ -5,7 +5,7 @@ import CompanyOwnerForm, {
 import {
   registerCompany,
   type RegisterCompanyResponse,
-} from '../../../api/registerCompanyApi.ts';
+} from '../../../api/registerCompanyApi';
 import { ApiError } from '../../../http/api-error';
 import Modal from '../../modals/RegistrationModal';
 import styles from './CompanyRegistrationPage.module.css';
