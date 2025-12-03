@@ -1,5 +1,5 @@
-import { API_BASE_URL } from '../constants/api.ts';
-import { ApiError, getErrorMessage, getErrorMetadata } from './api-error.ts';
+import { API_BASE_URL } from '../constants/api';
+import { ApiError, getErrorMessage, getErrorMetadata } from './api-error';
 
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 

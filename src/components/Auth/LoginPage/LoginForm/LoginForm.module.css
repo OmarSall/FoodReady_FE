@@ -19,18 +19,6 @@
   color: #f8fafc;
 }
 
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-}
-
-.label {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #cbd5e1;
-}
-
 .input {
   padding: 0.7rem 0.8rem;
   border-radius: 0.5rem;
@@ -55,12 +43,6 @@
   background-color: rgba(239, 68, 68, 0.15);
   color: #fca5a5;
   font-size: 0.85rem;
-}
-
-.helperText {
-  font-size: 0.75rem;
-  color: #94a3b8;
-  margin: 0;
 }
 
 .submitButton {
@@ -90,11 +72,6 @@
 .submitButton:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-}
-
-.inputError {
-  border-color: #f97373;
-  box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.35);
 }
 
 .formError {

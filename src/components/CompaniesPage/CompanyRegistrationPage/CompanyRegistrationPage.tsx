@@ -9,6 +9,7 @@ import {
 import { ApiError } from '../../../http/api-error';
 import Modal from '../../modals/RegistrationModal';
 import styles from './CompanyRegistrationPage.module.css';
+import { Link, useNavigate } from 'react-router-dom';
 
 function CompanyRegistrationPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -16,6 +17,7 @@ function CompanyRegistrationPage() {
   const [successData, setSuccessData] =
     useState<RegisterCompanyResponse | null>(null);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (values: CompanyOwnerFormValues) => {
     setIsSubmitting(true);
@@ -39,16 +41,32 @@ function CompanyRegistrationPage() {
 
   const handleCloseSuccessModal = () => {
     setIsSuccessModalOpen(false);
+    navigate('/login', { replace: true });
   };
 
   return (
     <div className={styles.page}>
-      <CompanyOwnerForm
-        onSubmit={handleSubmit}
-        isSubmitting={isSubmitting}
-        errorMessage={errorMessage}
-      />
-
+      <div className={styles.container}>
+        <CompanyOwnerForm
+          onSubmit={handleSubmit}
+          isSubmitting={isSubmitting}
+          errorMessage={errorMessage}
+        />
+        <div className={styles.links}>
+          <p className={styles.linkText}>
+            Already have a company?{' '}
+            <Link to="/login" className={styles.link}>
+              Log in
+            </Link>
+          </p>
+          <p className={styles.linkText}>
+            Back to{' '}
+            <Link to="/" className={styles.link}>
+              welcome page
+            </Link>
+          </p>
+        </div>
+      </div>
       <Modal
         isOpen={isSuccessModalOpen && Boolean(successData)}
         title="Company registered successfully!"
