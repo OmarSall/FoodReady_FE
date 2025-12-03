@@ -1,8 +1,8 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import CompanyRegistrationPage from './components/CompaniesPage/CompanyRegistrationPage/CompanyRegistrationPage';
-import WelcomePage from './components/WelcomePage/WelcomePage.tsx';
-import LoginPage from './components/Auth/LoginPage/LoginPage.tsx';
+import WelcomePage from './components/WelcomePage/WelcomePage';
+import LoginPage from './components/Auth/LoginPage/LoginPage';
 
 function App() {
   return (
