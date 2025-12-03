@@ -13,11 +13,7 @@ interface LoginFormProps {
   errorMessage: string | null;
 }
 
-function LoginForm({
-  onSubmit,
-  isSubmitting,
-  errorMessage,
-}: LoginFormProps) {
+function LoginForm({ onSubmit, isSubmitting, errorMessage }: LoginFormProps) {
   const {
     register,
     handleSubmit,

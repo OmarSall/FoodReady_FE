@@ -94,7 +94,6 @@ function CompanyOwnerForm({
         error={errors.confirmPassword}
       />
 
-
       {errorMessage && <div className={styles.formError}>{errorMessage}</div>}
 
       <button
