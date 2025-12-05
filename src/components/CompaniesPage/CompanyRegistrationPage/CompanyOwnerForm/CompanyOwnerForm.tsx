@@ -1,5 +1,6 @@
 import styles from './CompanyOwnerForm.module.css';
 import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
 import FormInput from '../../../Form/FormInput';
 
 export interface CompanyOwnerFormValues {
@@ -14,25 +15,35 @@ interface CompanyOwnerFormProps {
   onSubmit: (values: CompanyOwnerFormValues) => void;
   isSubmitting: boolean;
   errorMessage: string | null;
+  successMessage?: string | null;
 }
 
 function CompanyOwnerForm({
   onSubmit,
   isSubmitting,
   errorMessage,
+  successMessage,
 }: CompanyOwnerFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<CompanyOwnerFormValues>({
     defaultValues: {
       companyName: '',
       ownerName: '',
       email: '',
       password: '',
+      confirmPassword: '',
     },
   });
+
+  useEffect(() => {
+    if (successMessage) {
+      reset();
+    }
+  }, [successMessage, reset]);
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>

@@ -5,9 +5,10 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { request } from '../http/request';
-import { isApiError, isUnauthorized } from './auth-helpers';
-import type { AuthenticatedUser } from './auth-types';
+import { request } from '../http/request.ts';
+import { isApiError, isUnauthorized } from './auth-helpers.ts';
+import type { AuthenticatedUser } from './auth-types.ts';
+import { logOut } from '../api/logoutApi.ts'
 
 interface AuthContextValue {
   user: AuthenticatedUser | null;
@@ -18,6 +19,7 @@ interface AuthContextValue {
   authError: string | null;
   refreshUser: () => Promise<void>;
   clearUser: () => void;
+  logout: () => Promise<void>;
   login: (user: AuthenticatedUser) => void;
 }
 
@@ -67,6 +69,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setAuthError(null);
   };
 
+  const logout = async () => {
+    try {
+      await logOut();
+    } catch (error) {
+      console.warn('Failed to log out', error);
+    } finally {
+      clearUser();
+    }
+  };
+
   useEffect(() => {
     void refreshUser();
   }, []);
@@ -86,6 +98,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     authError,
     refreshUser,
     clearUser,
+    logout,
     login,
   };
 
