@@ -1,5 +1,4 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../auth/AuthContext.tsx';
 import { useState } from 'react';
 import { logIn } from '../../../api/loginApi.ts';
 import LoginForm, { type LoginFormValues } from './LoginForm/LoginForm.tsx';
@@ -8,8 +7,6 @@ import styles from './LoginPage.module.css';
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { refreshUser } = useAuth();
-  const { login } = useAuth();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
