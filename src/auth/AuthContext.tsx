@@ -9,6 +9,9 @@ import { request } from '../http/request.ts';
 import { isApiError, isUnauthorized } from './auth-helpers.ts';
 import type { AuthenticatedUser } from './auth-types.ts';
 import { logOut } from '../api/logoutApi.ts';
+import { request } from '../http/request';
+import { isApiError, isUnauthorized } from './auth-helpers';
+import type { AuthenticatedUser } from './auth-types';
 
 interface AuthContextValue {
   user: AuthenticatedUser | null;
@@ -20,6 +23,7 @@ interface AuthContextValue {
   refreshUser: () => Promise<void>;
   clearUser: () => void;
   logout: () => Promise<void>;
+  login: (user: AuthenticatedUser) => void;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -81,6 +85,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     void refreshUser();
   }, []);
 
+  const login = (authenticatedUser: AuthenticatedUser) => {
+    setUser(authenticatedUser);
+    setAuthError(null);
+    setIsLoading(false);
+  };
+
   const value: AuthContextValue = {
     user,
     isAuthenticated: user !== null,
@@ -91,6 +101,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     refreshUser,
     clearUser,
     logout,
+    login,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
