@@ -9,6 +9,7 @@ import styles from './LoginPage.module.css';
 function LoginPage() {
   const navigate = useNavigate();
   const { refreshUser } = useAuth();
+  const { login } = useAuth();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -19,12 +20,8 @@ function LoginPage() {
 
     try {
       const authenticatedUser = await logIn(values);
-      await refreshUser();
-      if (authenticatedUser.position === 'OWNER') {
-        navigate('/owner', { replace: true });
-      } else {
-        navigate('/', { replace: true });
-      }
+      login(authenticatedUser);
+      navigate('/', { replace: true });
     } catch (error) {
       if (error instanceof ApiError) {
         setErrorMessage(error.message || 'Failed to log in.');
