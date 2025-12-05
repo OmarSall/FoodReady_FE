@@ -18,6 +18,8 @@ function App() {
             <OwnerRoute>
               <OwnerDashboardPage />
             </OwnerRoute>
+          }
+        />
         <Route
           path="/register-company"
           element={

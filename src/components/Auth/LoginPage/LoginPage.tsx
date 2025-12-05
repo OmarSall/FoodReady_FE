@@ -8,7 +8,6 @@ import styles from './LoginPage.module.css';
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { refreshUser } = useAuth();
   const { login } = useAuth();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
