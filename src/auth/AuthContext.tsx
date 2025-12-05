@@ -5,9 +5,10 @@ import {
   useEffect,
   useState,
 } from 'react';
+import type { AuthenticatedUser } from './auth-types.ts';
+import { logOut } from '../api/logoutApi.ts';
 import { request } from '../http/request';
 import { isApiError, isUnauthorized } from './auth-helpers';
-import type { AuthenticatedUser } from './auth-types';
 
 interface AuthContextValue {
   user: AuthenticatedUser | null;
@@ -18,6 +19,7 @@ interface AuthContextValue {
   authError: string | null;
   refreshUser: () => Promise<void>;
   clearUser: () => void;
+  logout: () => Promise<void>;
   login: (user: AuthenticatedUser) => void;
 }
 
@@ -56,7 +58,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
       console.error('Unexpected error while refreshing current user', error);
       setAuthError('Unexpected error. Please try again later.');
-      return;
     } finally {
       setIsLoading(false);
     }
@@ -65,6 +66,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const clearUser = () => {
     setUser(null);
     setAuthError(null);
+  };
+
+  const logout = async () => {
+    try {
+      await logOut();
+    } catch (error) {
+      console.warn('Failed to log out', error);
+    } finally {
+      clearUser();
+    }
   };
 
   useEffect(() => {
@@ -86,6 +97,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     authError,
     refreshUser,
     clearUser,
+    logout,
     login,
   };
 
