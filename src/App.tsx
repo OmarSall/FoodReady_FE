@@ -7,8 +7,6 @@ import OwnerDashboardPage from './components/OwnerDashboard/OwnerDashboardPage.t
 import OwnerRoute from './components/Auth/OwnerRoute.tsx';
 import EmployeeDashboardPage from './components/EmployeeDashboardPage/EmployeeDashboardPage.tsx';
 import EmployeeRoute from './components/Auth/EmployeeRoute.tsx';
-import WelcomePage from './components/WelcomePage/WelcomePage';
-import LoginPage from './components/Auth/LoginPage/LoginPage';
 import GuestRoute from './components/Auth/GuestRoute.tsx';
 
 function App() {
@@ -32,6 +30,8 @@ function App() {
             <EmployeeRoute>
               <EmployeeDashboardPage />
             </EmployeeRoute>
+          }
+        />
         <Route
           path="/register-company"
           element={
