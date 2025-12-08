@@ -1,14 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../auth/AuthContext';
 import { useState } from 'react';
-import { logIn } from '../../../api/loginApi';
-import LoginForm, { type LoginFormValues } from './LoginForm/LoginForm';
-import { ApiError } from '../../../http/api-error';
+import { logIn } from '../../../api/loginApi.ts';
+import LoginForm, { type LoginFormValues } from './LoginForm/LoginForm.tsx';
+import { ApiError } from '../../../http/api-error.ts';
 import styles from './LoginPage.module.css';
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { login } = useAuth();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -19,8 +17,11 @@ function LoginPage() {
 
     try {
       const authenticatedUser = await logIn(values);
-      login(authenticatedUser);
-      navigate('/', { replace: true });
+      if (authenticatedUser.position === 'OWNER') {
+        navigate('/owner', { replace: true });
+      } else {
+        navigate('/employee', { replace: true });
+      }
     } catch (error) {
       if (error instanceof ApiError) {
         setErrorMessage(error.message || 'Failed to log in.');
