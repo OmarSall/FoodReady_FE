@@ -1,6 +1,6 @@
 import {
   createContext,
-  type ReactNode,
+  type ReactNode, useCallback,
   useContext,
   useEffect,
   useState,
@@ -32,7 +32,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [authError, setAuthError] = useState<string | null>(null);
 
-  const refreshUser = async () => {
+  const refreshUser = useCallback(async () => {
     setIsLoading(true);
     setAuthError(null);
     try {
@@ -59,7 +59,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   const clearUser = () => {
     setUser(null);
@@ -68,7 +68,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     void refreshUser();
-  }, []);
+  }, [refreshUser]);
 
   const login = (authenticatedUser: AuthenticatedUser) => {
     setUser(authenticatedUser);
