@@ -1,26 +1,20 @@
-import type { ReactNode } from 'react';
 import { useAuth } from '../../auth/AuthContext.tsx';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
-interface EmployeeRouteProps {
-  children: ReactNode;
-}
-
-function EmployeeRoute({ children }: EmployeeRouteProps) {
-  const { isAuthenticated, isEmployee, isLoading } = useAuth();
+function EmployeeRoute() {
+  const { isOwner, isEmployee, isLoading } = useAuth();
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
   if (!isEmployee) {
+    if (isOwner) {
+      return <Navigate to="/owner-dashboard" replace />;
+    }
     return <Navigate to="/" replace />;
   }
 
-  return <>{children}</>;
+  return <Outlet />;
 }
 export default EmployeeRoute;
