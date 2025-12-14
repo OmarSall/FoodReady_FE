@@ -1,6 +1,7 @@
 import {
   createContext,
   type ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -15,6 +16,7 @@ interface AuthContextValue {
   isAuthenticated: boolean;
   isOwner: boolean;
   isEmployee: boolean;
+  isAdmin: boolean;
   isLoading: boolean;
   authError: string | null;
   refreshUser: () => Promise<void>;
@@ -34,7 +36,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [authError, setAuthError] = useState<string | null>(null);
 
-  const refreshUser = async () => {
+  const refreshUser = useCallback(async () => {
     setIsLoading(true);
     setAuthError(null);
     try {
@@ -43,8 +45,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setAuthError(null);
     } catch (error) {
       if (isUnauthorized(error)) {
-        setUser(null);
-        setAuthError(null);
+        clearUser()
         return;
       }
 
@@ -53,6 +54,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           statusCode: error.statusCode,
           rawMessage: error.rawMessage,
         });
+        clearUser();
         setAuthError('Failed to verify authentication. Please try again later');
         return;
       }
@@ -61,14 +63,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } finally {
       setIsLoading(false);
     }
-  };
+  },[]);
 
   const clearUser = () => {
     setUser(null);
     setAuthError(null);
   };
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     try {
       await logOut();
     } catch (error) {
@@ -76,23 +78,24 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } finally {
       clearUser();
     }
-  };
+  },[clearUser]);
 
   useEffect(() => {
     void refreshUser();
-  }, []);
+  }, [refreshUser]);
 
-  const login = (authenticatedUser: AuthenticatedUser) => {
+  const login = useCallback((authenticatedUser: AuthenticatedUser) => {
     setUser(authenticatedUser);
     setAuthError(null);
     setIsLoading(false);
-  };
+  },[])
 
   const value: AuthContextValue = {
     user,
     isAuthenticated: user !== null,
     isOwner: user?.position === 'OWNER',
     isEmployee: user?.position === 'EMPLOYEE',
+    isAdmin: user?.position === 'ADMIN',
     isLoading,
     authError,
     refreshUser,

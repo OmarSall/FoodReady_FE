@@ -2,7 +2,7 @@ export interface AuthenticatedUser {
   id: number;
   name: string;
   email: string;
-  position: 'OWNER' | 'EMPLOYEE';
+  position: 'OWNER' | 'EMPLOYEE' | 'ADMIN';
   companyId: number;
   company?: {
     id: number;
