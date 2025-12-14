@@ -1,7 +1,7 @@
 // src/components/NotFoundPage/NotFoundPage.tsx
-import { useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../../auth/AuthContext";
-import styles from "./NotFoundPage.module.css";
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../auth/AuthContext';
+import styles from './NotFoundPage.module.css';
 
 function NotFoundPage() {
   const navigate = useNavigate();
@@ -10,18 +10,18 @@ function NotFoundPage() {
 
   const getDefaultRedirectPath = () => {
     if (!isAuthenticated) {
-      return "/";
+      return '/';
     }
 
     if (isOwner) {
-      return "/owner-dashboard";
+      return '/owner-dashboard';
     }
 
     if (isEmployee) {
-      return "/employee-dashboard";
+      return '/employee-dashboard';
     }
 
-    return "/";
+    return '/';
   };
 
   const handleGoBack = () => {
@@ -48,7 +48,7 @@ function NotFoundPage() {
         </h1>
 
         <p className={styles.subtitle}>
-          We could not find any page that matches{" "}
+          We could not find any page that matches{' '}
           <span className={styles.path}>{location.pathname}</span>.
         </p>
 

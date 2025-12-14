@@ -45,7 +45,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setAuthError(null);
     } catch (error) {
       if (isUnauthorized(error)) {
-        clearUser()
+        clearUser();
         return;
       }
 
@@ -63,12 +63,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } finally {
       setIsLoading(false);
     }
-  },[]);
+  }, []);
 
-  const clearUser = () => {
+  const clearUser = useCallback(() => {
     setUser(null);
     setAuthError(null);
-  };
+  }, []);
 
   const logout = useCallback(async () => {
     try {
@@ -78,7 +78,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } finally {
       clearUser();
     }
-  },[clearUser]);
+  }, [clearUser]);
 
   useEffect(() => {
     void refreshUser();
@@ -88,7 +88,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setUser(authenticatedUser);
     setAuthError(null);
     setIsLoading(false);
-  },[])
+  }, []);
 
   const value: AuthContextValue = {
     user,

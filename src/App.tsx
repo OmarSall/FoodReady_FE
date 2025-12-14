@@ -1,15 +1,15 @@
-import { Routes, Route } from "react-router-dom";
-import GuestRoute from "./components/Auth/GuestRoute";
-import ProtectedRoute from "./components/Auth/ProtectedRoute";
-import OwnerRoute from "./components/Auth/OwnerRoute";
-import EmployeeRoute from "./components/Auth/EmployeeRoute";
+import { Routes, Route } from 'react-router-dom';
+import GuestRoute from './components/Auth/GuestRoute';
+import ProtectedRoute from './components/Auth/ProtectedRoute';
+import OwnerRoute from './components/Auth/OwnerRoute';
+import EmployeeRoute from './components/Auth/EmployeeRoute';
 
-import WelcomePage from "./components/WelcomePage/WelcomePage";
-import LoginPage from "./components/Auth/LoginPage/LoginPage";
-import CompanyRegistrationPage from "./components/CompaniesPage/CompanyRegistrationPage/CompanyRegistrationPage";
-import OwnerDashboardPage from "./components/OwnerDashboard/OwnerDashboardPage";
-import EmployeeDashboardPage from "./components/EmployeeDashboardPage/EmployeeDashboardPage";
-import NotFoundPage from "./components/NotFoundPage/NotFoundPage";
+import WelcomePage from './components/WelcomePage/WelcomePage';
+import LoginPage from './components/Auth/LoginPage/LoginPage';
+import CompanyRegistrationPage from './components/CompaniesPage/CompanyRegistrationPage/CompanyRegistrationPage';
+import OwnerDashboardPage from './components/OwnerDashboard/OwnerDashboardPage';
+import EmployeeDashboardPage from './components/EmployeeDashboardPage/EmployeeDashboardPage';
+import NotFoundPage from './components/NotFoundPage/NotFoundPage';
 
 function App() {
   return (

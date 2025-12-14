@@ -1,7 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext.tsx';
 
-
 function GuestRoute() {
   const { isAuthenticated, isLoading, isOwner, isEmployee } = useAuth();
 
@@ -16,7 +15,7 @@ function GuestRoute() {
   if (isAuthenticated && isEmployee) {
     return <Navigate to="/employee-dashboard" replace />;
   }
-  return <Outlet />
+  return <Outlet />;
 }
 
 export default GuestRoute;

@@ -14,7 +14,7 @@ function LoginPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const fromPathname =
-    (location.state as { from?: Location } | null)?.from?.pathname ?? "/";
+    (location.state as { from?: Location } | null)?.from?.pathname ?? '/';
 
   const handleSubmit = async (values: LoginFormValues) => {
     setIsSubmitting(true);
@@ -23,7 +23,7 @@ function LoginPage() {
     try {
       await logIn(values);
       await refreshUser();
-      navigate(fromPathname, { replace: true })
+      navigate(fromPathname, { replace: true });
     } catch (error) {
       if (error instanceof ApiError) {
         setErrorMessage(error.message || 'Failed to log in.');

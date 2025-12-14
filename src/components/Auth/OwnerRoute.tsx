@@ -15,7 +15,7 @@ function OwnerRoute() {
     return <Navigate to="/" replace />;
   }
 
-  return <Outlet />
+  return <Outlet />;
 }
 
 export default OwnerRoute;
