@@ -38,12 +38,8 @@ function CreateEmployeeForm({
     }
   }, [successMessage, reset]);
 
-  const handleFormSubmit = (values: CreateEmployeeFormValues) => {
-    onSubmit(values);
-  };
-
   return (
-    <form className={styles.form} onSubmit={handleSubmit(handleFormSubmit)}>
+    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <h3 className={styles.title}>Create employee</h3>
       <div className={styles.field}>
         <label htmlFor="name" className={styles.label}>

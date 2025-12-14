@@ -1,25 +1,21 @@
-import type { ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext.tsx';
 
-interface OwnerRouteProps {
-  children: ReactNode;
-}
-
-function OwnerRoute({ children }: OwnerRouteProps) {
-  const { isAuthenticated, isOwner, isLoading } = useAuth();
+function OwnerRoute() {
+  const { isEmployee, isOwner, isLoading } = useAuth();
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
   if (!isOwner) {
+    if (isEmployee) {
+      return <Navigate to="/employee-dashboard" replace />;
+    }
     return <Navigate to="/" replace />;
   }
-  return <>{children}</>;
+
+  return <Outlet />
 }
+
 export default OwnerRoute;

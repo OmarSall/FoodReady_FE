@@ -1,23 +1,22 @@
-import type { ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext.tsx';
 
-interface GuestRouteProps {
-  children: ReactNode;
-}
 
-function GuestRoute({ children }: GuestRouteProps) {
-  const { isAuthenticated, isLoading } = useAuth();
+function GuestRoute() {
+  const { isAuthenticated, isLoading, isOwner, isEmployee } = useAuth();
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (isAuthenticated) {
-    return <Navigate to="/" replace />;
+  if (isAuthenticated && isOwner) {
+    return <Navigate to="/owner-dashboard" replace />;
   }
 
-  return <>{children}</>;
+  if (isAuthenticated && isEmployee) {
+    return <Navigate to="/employee-dashboard" replace />;
+  }
+  return <Outlet />
 }
 
 export default GuestRoute;

@@ -11,7 +11,7 @@ function WelcomePage() {
             A simple workflow for owners and employees to manage their company
             account.
           </p>
-          <div className={styles.action}>
+          <div className={styles.actions}>
             <Link to="/register-company" className={styles.primaryButton}>
               Register Company (owner)
             </Link>
@@ -22,22 +22,11 @@ function WelcomePage() {
               Owners register a company and create employee accounts. Employees
               and owners that registered their company can login.
             </p>
-            <div className={styles.actions}>
-              <Link to="/register-company" className={styles.primaryButton}>
-                Register Company (owner)
-              </Link>
-              <Link to="/login" className={styles.secondaryButton}>
-                Log in
-              </Link>
-              <p className={styles.helperText}>
-                Owners register a company and create employee accounts.
-                Employees and owners that registered their company can login.
-              </p>
-            </div>
-          </section>
-        </div>
+          </div>
+        </section>
       </main>
     </>
   );
 }
+
 export default WelcomePage;

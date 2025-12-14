@@ -1,0 +1,101 @@
+.page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    background-color: #f7fafc;
+}
+
+.card {
+    max-width: 520px;
+    width: 100%;
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+    text-align: center;
+}
+
+.title {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 0.75rem;
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+}
+
+.path {
+    font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
+    background-color: #edf2f7;
+    border-radius: 6px;
+    padding: 0.1rem 0.45rem;
+    font-size: 0.9rem;
+    color: #2d3748;
+}
+
+.helperText {
+    font-size: 0.9rem;
+    color: #718096;
+    margin-bottom: 1.75rem;
+    line-height: 1.5;
+}
+
+/* Przyciski – styl zbliżony do WelcomePage */
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+.primaryButton,
+.secondaryButton {
+    min-width: 150px;
+    padding: 0.65rem 1.4rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: box-shadow 0.15s ease, transform 0.1s ease,
+    background-color 0.15s ease, color 0.15s ease;
+}
+
+.primaryButton {
+    background-color: #2b6cb0;
+    color: #ffffff;
+    box-shadow: 0 10px 25px rgba(43, 108, 176, 0.35);
+}
+
+.primaryButton:hover {
+    background-color: #2c5282;
+    transform: translateY(-1px);
+    box-shadow: 0 12px 30px rgba(43, 108, 176, 0.45);
+}
+
+.primaryButton:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 18px rgba(43, 108, 176, 0.35);
+}
+
+.secondaryButton {
+    background-color: #edf2f7;
+    color: #2d3748;
+}
+
+.secondaryButton:hover {
+    background-color: #e2e8f0;
+    transform: translateY(-1px);
+}
+
+.secondaryButton:active {
+    transform: translateY(0);
+}
