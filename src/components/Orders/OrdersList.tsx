@@ -1,4 +1,4 @@
-import styles from '../EmployeeDashboardPage/EmployeeDashboardPage.module.css';
+import styles from './OrdersList.module.css';
 import type { Order, OrderStatus } from '../../api/ordersApi';
 
 interface OrdersListProps {

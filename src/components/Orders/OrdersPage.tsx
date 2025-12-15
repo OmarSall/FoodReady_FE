@@ -9,7 +9,7 @@ import {
 import { ApiError } from '../../http/api-error';
 import CreateOrderForm, {
   type CreateOrderFormValues,
-} from '../EmployeeDashboardPage/CreateOrderForm/CreateOrderForm';
+} from './CreateOrderForm/CreateOrderForm';
 import OrdersList from './OrdersList';
 import styles from './OrdersPage.module.css';
 
