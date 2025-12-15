@@ -1,12 +1,12 @@
 import styles from './OwnerDashboardPage.module.css';
 import CreateEmployeeForm, {
   type CreateEmployeeFormValues,
-} from '../Employees/CreateEmployeeForm/CreateEmployeeForm.tsx';
+} from '../Employees/CreateEmployeeForm/CreateEmployeeForm';
 import { useCallback, useState } from 'react';
-import { useAuth } from '../../auth/AuthContext.tsx';
+import { useAuth } from '../../auth/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { createEmployee } from '../../api/createEmployeeApi.ts';
-import { ApiError } from '../../http/api-error.ts';
+import { createEmployee } from '../../api/createEmployeeApi';
+import { ApiError } from '../../http/api-error';
 
 function OwnerDashboardPage() {
   const { user, logout } = useAuth();

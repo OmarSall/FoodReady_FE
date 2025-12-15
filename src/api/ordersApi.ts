@@ -1,4 +1,4 @@
-import { request } from '../http/request.ts';
+import { request } from '../http/request';
 
 export type OrderStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
 

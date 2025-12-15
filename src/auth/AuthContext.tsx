@@ -6,8 +6,8 @@ import {
   useEffect,
   useState,
 } from 'react';
-import type { AuthenticatedUser } from './auth-types.ts';
-import { logOut } from '../api/logoutApi.ts';
+import type { AuthenticatedUser } from './auth-types';
+import { logOut } from '../api/logoutApi';
 import { request } from '../http/request';
 import { isApiError, isUnauthorized } from './auth-helpers';
 

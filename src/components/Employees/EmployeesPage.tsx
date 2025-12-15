@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react';
 import styles from './EmployeesPage.module.css';
-import { useAuth } from '../../auth/AuthContext.tsx';
+import { useAuth } from '../../auth/AuthContext';
 import CreateEmployeeForm, {
   type CreateEmployeeFormValues,
 } from './CreateEmployeeForm/CreateEmployeeForm';
-import { createEmployee } from '../../api/createEmployeeApi.ts';
-import { ApiError } from '../../http/api-error.ts';
+import { createEmployee } from '../../api/createEmployeeApi';
+import { ApiError } from '../../http/api-error';
 
 function EmployeesPage() {
   const { user } = useAuth();
