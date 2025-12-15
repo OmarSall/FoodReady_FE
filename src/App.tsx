@@ -6,8 +6,8 @@ import WelcomePage from './components/WelcomePage/WelcomePage';
 import LoginPage from './components/Auth/LoginPage/LoginPage';
 import CompanyRegistrationPage from './components/CompaniesPage/CompanyRegistrationPage/CompanyRegistrationPage';
 import DashboardLayout from './components/Dashboard/DashboardLayout';
-import OrdersPage from './components/Orders/OrdersPage.tsx';
-import EmployeesPage from './components/Employees/EmployeesPage.tsx';
+import OrdersPage from './components/Orders/OrdersPage';
+import EmployeesPage from './components/Employees/EmployeesPage';
 import NotFoundPage from './components/NotFoundPage/NotFoundPage';
 
 function App() {
@@ -22,13 +22,9 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<DashboardLayout />}>
           <Route path="/orders" element={<OrdersPage />} />
-        </Route>
-
-        <Route element={<OwnerRoute />}>
-          <Route
-            path="/employees"
-            element={<EmployeesPage />}
-          />
+          <Route element={<OwnerRoute />}>
+            <Route path="/employees" element={<EmployeesPage />} />
+          </Route>
         </Route>
       </Route>
 

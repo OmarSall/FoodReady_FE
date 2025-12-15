@@ -1,5 +1,5 @@
-import type { AuthenticatedUser } from '../auth/auth-types.ts';
-import { request } from '../http/request.ts';
+import type { AuthenticatedUser } from '../auth/auth-types';
+import { request } from '../http/request';
 
 export interface LogInPayload {
   email: string;

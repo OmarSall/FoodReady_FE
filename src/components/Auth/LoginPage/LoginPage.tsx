@@ -15,17 +15,13 @@ function LoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const rawFromPathname =
+  const fromPathname =
     (location.state as { from?: Location } | null)?.from?.pathname ?? null;
 
   const targetPath =
-    !rawFromPathname ||
-    rawFromPathname === '/' ||
-    rawFromPathname === '/owner-dashboard' || // legacy
-    rawFromPathname === '/employee-dashboard' // legacy
+    !fromPathname || fromPathname === '/'
       ? DEFAULT_DASHBOARD_PATH
-      : rawFromPathname;
-
+      : fromPathname;
 
   const handleSubmit = async (values: LoginFormValues) => {
     setIsSubmitting(true);
@@ -72,4 +68,5 @@ function LoginPage() {
     </main>
   );
 }
+
 export default LoginPage;
