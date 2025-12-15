@@ -1,10 +1,12 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { logIn } from '../../../api/loginApi.ts';
-import LoginForm, { type LoginFormValues } from './LoginForm/LoginForm.tsx';
-import { ApiError } from '../../../http/api-error.ts';
+import { logIn } from '../../../api/loginApi';
+import LoginForm, { type LoginFormValues } from './LoginForm/LoginForm';
+import { ApiError } from '../../../http/api-error';
 import styles from './LoginPage.module.css';
-import { useAuth } from '../../../auth/AuthContext.tsx';
+import { useAuth } from '../../../auth/AuthContext';
+
+const DEFAULT_DASHBOARD_PATH = '/orders';
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -13,8 +15,17 @@ function LoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const fromPathname =
-    (location.state as { from?: Location } | null)?.from?.pathname ?? '/';
+  const rawFromPathname =
+    (location.state as { from?: Location } | null)?.from?.pathname ?? null;
+
+  const targetPath =
+    !rawFromPathname ||
+    rawFromPathname === '/' ||
+    rawFromPathname === '/owner-dashboard' || // legacy
+    rawFromPathname === '/employee-dashboard' // legacy
+      ? DEFAULT_DASHBOARD_PATH
+      : rawFromPathname;
+
 
   const handleSubmit = async (values: LoginFormValues) => {
     setIsSubmitting(true);
@@ -23,7 +34,7 @@ function LoginPage() {
     try {
       await logIn(values);
       await refreshUser();
-      navigate(fromPathname, { replace: true });
+      navigate(targetPath, { replace: true });
     } catch (error) {
       if (error instanceof ApiError) {
         setErrorMessage(error.message || 'Failed to log in.');

@@ -1,6 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useAuth } from '../../auth/AuthContext';
-import { useNavigate } from 'react-router-dom';
 import {
   createOrder,
   getOrders,
@@ -11,14 +9,11 @@ import {
 import { ApiError } from '../../http/api-error';
 import CreateOrderForm, {
   type CreateOrderFormValues,
-} from './CreateOrderForm/CreateOrderForm';
-import styles from './EmployeeDashboardPage.module.css';
-import OrdersList from '../Orders/OrdersList.tsx';
+} from '../EmployeeDashboardPage/CreateOrderForm/CreateOrderForm';
+import OrdersList from './OrdersList';
+import styles from './OrdersPage.module.css';
 
-function EmployeeDashboardPage() {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-
+function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoadingOrders, setIsLoadingOrders] = useState<boolean>(false);
   const [ordersError, setOrdersError] = useState<string | null>(null);
@@ -62,6 +57,7 @@ function EmployeeDashboardPage() {
           title: values.title,
           description: values.description,
         });
+
         setOrders((previousOrders) => [...previousOrders, newOrder]);
         setCreateSuccess('Order has been created.');
       } catch (error) {
@@ -102,73 +98,46 @@ function EmployeeDashboardPage() {
     [],
   );
 
-  const handleLogOut = useCallback(async () => {
-    await logout();
-    navigate('/', { replace: true });
-  }, [logout, navigate]);
-
   return (
-    <>
-      <main className={styles.page}>
-        <section className={styles.card}>
-          <header className={styles.header}>
-            <div>
-              <h1 className={styles.title}>Employee dashboard</h1>
-              <p className={styles.subtitle}>
-                Welcome,{' '}
-                <span className={styles.highlight}>
-                  {user?.name ?? 'Employee'}
-                </span>
-              </p>
-            </div>
-            <button
-              type="button"
-              className={styles.logoutButton}
-              onClick={handleLogOut}
-            >
-              Log out
-            </button>
-          </header>
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>Your Company</h2>
-            <p className={styles.sectionText}>
-              You are logged in as an <strong>EMPLOYEE</strong> of{' '}
-              <strong>{user?.company?.name}</strong>.
-            </p>
-          </div>
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>Orders</h2>
-            <p className={styles.sectionText}>
-              Create new orders and update their status as you work on them.
-            </p>
-            <CreateOrderForm
-              onSubmit={handleCreateOrder}
-              isSubmitting={isCreating}
-              errorMessage={createError}
-              successMessage={createSuccess}
-            />
-          </div>
-          <div className={styles.section}>
-            <h2 className={styles.sectionTitle}>Orders list</h2>
+    <section className={styles.page}>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Orders</h1>
+        <p className={styles.subtitle}>
+          Create new orders and update their status as you work on them.
+        </p>
+      </header>
 
-            {isLoadingOrders && (
-              <p className={styles.sectionText}>Loading orders...</p>
-            )}
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Create new order</h2>
+        <CreateOrderForm
+          onSubmit={handleCreateOrder}
+          isSubmitting={isCreating}
+          errorMessage={createError}
+          successMessage={createSuccess}
+        />
+      </div>
 
-            {ordersError && <p className={styles.sectionText}>{ordersError}</p>}
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Orders list</h2>
 
-            {!isLoadingOrders && !ordersError && (
-              <OrdersList
-                orders={orders}
-                onStatusChange={handleStatusChange}
-                isUpdatingId={updatingOrderId}
-              />
-            )}
-          </div>
-        </section>
-      </main>
-    </>
+        {isLoadingOrders && (
+          <p className={styles.sectionText}>Loading orders...</p>
+        )}
+
+        {ordersError && (
+          <p className={styles.sectionText}>{ordersError}</p>
+        )}
+
+        {!isLoadingOrders && !ordersError && (
+          <OrdersList
+            orders={orders}
+            onStatusChange={handleStatusChange}
+            isUpdatingId={updatingOrderId}
+          />
+        )}
+      </div>
+    </section>
   );
 }
 
-export default EmployeeDashboardPage;
+export default OrdersPage;

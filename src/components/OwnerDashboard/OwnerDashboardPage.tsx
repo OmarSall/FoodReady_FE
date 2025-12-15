@@ -1,7 +1,7 @@
 import styles from './OwnerDashboardPage.module.css';
 import CreateEmployeeForm, {
   type CreateEmployeeFormValues,
-} from './CreateEmployeeForm/CreateEmployeeForm.tsx';
+} from '../Employees/CreateEmployeeForm/CreateEmployeeForm.tsx';
 import { useCallback, useState } from 'react';
 import { useAuth } from '../../auth/AuthContext.tsx';
 import { useNavigate } from 'react-router-dom';

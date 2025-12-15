@@ -1,27 +1,20 @@
-// src/components/NotFoundPage/NotFoundPage.tsx
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
 import styles from './NotFoundPage.module.css';
 
+const DEFAULT_PUBLIC_PATH = '/';
+const DEFAULT_DASHBOARD_PATH = '/orders';
+
 function NotFoundPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { isAuthenticated, isOwner, isEmployee } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   const getDefaultRedirectPath = () => {
     if (!isAuthenticated) {
-      return '/';
+      return DEFAULT_PUBLIC_PATH;
     }
-
-    if (isOwner) {
-      return '/owner-dashboard';
-    }
-
-    if (isEmployee) {
-      return '/employee-dashboard';
-    }
-
-    return '/';
+    return DEFAULT_DASHBOARD_PATH;
   };
 
   const handleGoBack = () => {

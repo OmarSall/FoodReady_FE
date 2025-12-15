@@ -1,5 +1,5 @@
-import styles from './EmployeeDashboardPage.module.css';
-import type { Order, OrderStatus } from '../../api/ordersApi.ts';
+import styles from '../EmployeeDashboardPage/EmployeeDashboardPage.module.css';
+import type { Order, OrderStatus } from '../../api/ordersApi';
 
 interface OrdersListProps {
   orders: Order[];
@@ -21,11 +21,12 @@ function OrdersList({
 }: OrdersListProps) {
   if (orders.length === 0) {
     return (
-      <div className={styles.sectionText}>
-        <p>No orders yet. Create your first order using the form.</p>
-      </div>
+      <p className={styles.sectionText}>
+        No orders yet. Create your first order using the form.
+      </p>
     );
   }
+
   return (
     <div className={styles.ordersList}>
       {orders.map((order) => (
