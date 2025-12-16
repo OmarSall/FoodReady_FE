@@ -2,6 +2,7 @@ import type { AuthenticatedUser } from '../../auth/auth-types';
 import { useAuth } from '../../auth/AuthContext';
 import styles from './DashboardLayout.module.css';
 import { NavLink, Outlet } from 'react-router-dom';
+import LogoutButton from '../Auth/LogoutButton/LogoutButton.tsx';
 type Role = AuthenticatedUser['position'];
 
 interface MenuItem {
@@ -54,6 +55,7 @@ function DashboardLayout() {
               </NavLink>
             ))}
           </nav>
+          <LogoutButton />
         </aside>
 
         <main className={styles.content}>

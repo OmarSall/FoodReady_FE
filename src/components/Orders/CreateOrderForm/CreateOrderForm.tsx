@@ -15,11 +15,11 @@ interface CreateOrderFormProps {
 }
 
 function CreateOrderForm({
-                           onSubmit,
-                           isSubmitting,
-                           errorMessage,
-                           successMessage,
-                         }: CreateOrderFormProps) {
+  onSubmit,
+  isSubmitting,
+  errorMessage,
+  successMessage,
+}: CreateOrderFormProps) {
   const {
     register,
     handleSubmit,

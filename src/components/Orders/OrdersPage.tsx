@@ -108,7 +108,6 @@ function OrdersPage() {
       </header>
 
       <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>Create new order</h2>
         <CreateOrderForm
           onSubmit={handleCreateOrder}
           isSubmitting={isCreating}
@@ -124,9 +123,7 @@ function OrdersPage() {
           <p className={styles.sectionText}>Loading orders...</p>
         )}
 
-        {ordersError && (
-          <p className={styles.sectionText}>{ordersError}</p>
-        )}
+        {ordersError && <p className={styles.sectionText}>{ordersError}</p>}
 
         {!isLoadingOrders && !ordersError && (
           <OrdersList
