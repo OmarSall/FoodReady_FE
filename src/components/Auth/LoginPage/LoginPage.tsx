@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { logIn } from '../../../api/loginApi';
+import { logIn } from '../../../api/authenticationApi';
 import LoginForm, { type LoginFormValues } from './LoginForm/LoginForm';
 import { ApiError } from '../../../http/api-error';
 import styles from './LoginPage.module.css';

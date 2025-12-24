@@ -7,8 +7,7 @@ import {
   useState,
 } from 'react';
 import type { AuthenticatedUser } from './auth-types';
-import { logOut } from '../api/logoutApi';
-import { request } from '../http/request';
+import { getCurrentUser, logOut } from '../api/authenticationApi';
 import { isApiError, isUnauthorized } from './auth-helpers';
 
 interface AuthContextValue {
@@ -40,7 +39,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setIsLoading(true);
     setAuthError(null);
     try {
-      const data = await request<AuthenticatedUser>('GET', '/authentication');
+      const data = await getCurrentUser();
       setUser(data);
       setAuthError(null);
     } catch (error) {

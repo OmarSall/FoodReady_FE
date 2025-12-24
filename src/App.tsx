@@ -9,21 +9,25 @@ import DashboardLayout from './components/Dashboard/DashboardLayout';
 import OrdersPage from './components/Orders/OrdersPage';
 import EmployeesPage from './components/Employees/EmployeesPage';
 import NotFoundPage from './components/NotFoundPage/NotFoundPage';
+import { ROUTES } from './constants/routes';
 
 function App() {
   return (
     <Routes>
       <Route element={<GuestRoute />}>
-        <Route path="/" element={<WelcomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register-company" element={<CompanyRegistrationPage />} />
+        <Route path={ROUTES.HOME} element={<WelcomePage />} />
+        <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+        <Route
+          path={ROUTES.REGISTER_COMPANY}
+          element={<CompanyRegistrationPage />}
+        />
       </Route>
 
       <Route element={<ProtectedRoute />}>
         <Route element={<DashboardLayout />}>
-          <Route path="/orders" element={<OrdersPage />} />
+          <Route path={ROUTES.ORDERS} element={<OrdersPage />} />
           <Route element={<OwnerRoute />}>
-            <Route path="/employees" element={<EmployeesPage />} />
+            <Route path={ROUTES.EMPLOYEES} element={<EmployeesPage />} />
           </Route>
         </Route>
       </Route>
