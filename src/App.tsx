@@ -32,7 +32,7 @@ function App() {
         </Route>
       </Route>
 
-      <Route path="*" element={<NotFoundPage />} />
+      <Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} />
     </Routes>
   );
 }

@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
+import { ROUTES } from '../../constants/routes.ts';
 
 function GuestRoute() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -9,7 +10,7 @@ function GuestRoute() {
   }
 
   if (isAuthenticated) {
-    return <Navigate to="/orders" replace />;
+    return <Navigate to={ROUTES.ORDERS} replace />;
   }
 
   return <Outlet />;

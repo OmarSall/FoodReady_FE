@@ -3,6 +3,9 @@ import { useAuth } from '../../auth/AuthContext';
 import styles from './DashboardLayout.module.css';
 import { NavLink, Outlet } from 'react-router-dom';
 import LogoutButton from '../Auth/LogoutButton/LogoutButton.tsx';
+import { ROUTES } from '../../constants/routes';
+import { useMemo } from 'react';
+
 type Role = AuthenticatedUser['position'];
 
 interface MenuItem {
@@ -13,23 +16,26 @@ interface MenuItem {
 
 const MENU_ITEMS: MenuItem[] = [
   {
-    route: '/orders',
+    route: ROUTES.ORDERS,
     label: 'Orders',
-    allowedRoles: ['OWNER', 'EMPLOYEE', 'ADMIN'],
+    allowedRoles: ['OWNER', 'EMPLOYEE'],
   },
   {
-    route: '/employees',
+    route: ROUTES.EMPLOYEES,
     label: 'Employees',
-    allowedRoles: ['OWNER', 'ADMIN'],
+    allowedRoles: ['OWNER'],
   },
 ];
 
 function DashboardLayout() {
   const { user } = useAuth();
-  const role = user?.position as Role | undefined;
-  const visibleMenuItems = role
-    ? MENU_ITEMS.filter((item) => item.allowedRoles.includes(role))
-    : [];
+  const role = user?.position;
+  const visibleMenuItems = useMemo(() => {
+    if (!role) {
+      return [];
+    }
+    return MENU_ITEMS.filter((item) => item.allowedRoles.includes(role));
+  }, [role]);
 
   return (
     <div className={styles.page}>

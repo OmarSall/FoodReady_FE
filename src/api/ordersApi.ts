@@ -1,4 +1,5 @@
 import { request } from '../http/request';
+import { API_ENDPOINTS, apiPaths } from '../constants/api';
 
 export type OrderStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
 
@@ -20,17 +21,17 @@ interface CreateOrderPayload {
   description?: string;
 }
 
-export async function createOrder(payload: CreateOrderPayload): Promise<Order> {
-  return request<Order>('POST', '/orders', { body: payload });
+export function createOrder(payload: CreateOrderPayload): Promise<Order> {
+  return request<Order>('POST', API_ENDPOINTS.ORDERS, { body: payload });
 }
 
-export async function getOrders(): Promise<Order[]> {
-  return request<Order[]>('GET', `/orders`);
+export function getOrders(): Promise<Order[]> {
+  return request<Order[]>('GET', API_ENDPOINTS.ORDERS);
 }
 
-export async function updateOrderStatus(
+export function updateOrderStatus(
   id: number,
   payload: UpdateOrderStatusPayload,
 ): Promise<void> {
-  return request('PATCH', `/orders/${id}`, { body: payload });
+  return request('PATCH', apiPaths.orderById(id), { body: payload });
 }

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../auth/AuthContext';
 import styles from './LogoutButton.module.css';
+import { ROUTES } from '../../../constants/routes';
 
 interface LogoutButtonProps {
   className?: string;
@@ -12,7 +13,7 @@ function LogoutButton({ className }: LogoutButtonProps) {
 
   const handleLogout = async () => {
     await logout();
-    navigate('/', { replace: true });
+    navigate(ROUTES.HOME, { replace: true });
   };
 
   return (

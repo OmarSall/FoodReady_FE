@@ -1,4 +1,7 @@
 import { request } from '../http/request';
+import { API_ENDPOINTS } from '../constants/api';
+import type { AuthenticatedUser } from '../auth/auth-types';
+type Role = AuthenticatedUser['position'];
 
 export interface RegisterCompanyPayload {
   companyName: string;
@@ -11,23 +14,25 @@ export interface Company {
   name: string;
 }
 
-export interface Employee {
+export interface CompanyOwner {
   id: number;
   email: string;
   name: string;
-  position: string;
+  position: Role;
   companyId: number;
 }
 
 export interface RegisterCompanyResponse {
   company: Company;
-  owner: Employee;
+  owner: CompanyOwner;
 }
 
 export function registerCompany(
   payload: RegisterCompanyPayload,
 ): Promise<RegisterCompanyResponse> {
-  return request<RegisterCompanyResponse>('POST', '/companies/register', {
-    body: payload,
-  });
+  return request<RegisterCompanyResponse>(
+    'POST',
+    API_ENDPOINTS.COMPANIES.REGISTER,
+    { body: payload },
+  );
 }

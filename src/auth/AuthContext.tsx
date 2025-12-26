@@ -15,7 +15,6 @@ interface AuthContextValue {
   isAuthenticated: boolean;
   isOwner: boolean;
   isEmployee: boolean;
-  isAdmin: boolean;
   isLoading: boolean;
   authError: string | null;
   refreshUser: () => Promise<void>;
@@ -35,13 +34,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [authError, setAuthError] = useState<string | null>(null);
 
+  const clearUser = useCallback(() => {
+    setUser(null);
+    setAuthError(null);
+  }, []);
+
   const refreshUser = useCallback(async () => {
     setIsLoading(true);
     setAuthError(null);
     try {
       const data = await getCurrentUser();
       setUser(data);
-      setAuthError(null);
     } catch (error) {
       if (isUnauthorized(error)) {
         clearUser();
@@ -62,12 +65,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } finally {
       setIsLoading(false);
     }
-  }, []);
-
-  const clearUser = useCallback(() => {
-    setUser(null);
-    setAuthError(null);
-  }, []);
+  }, [clearUser]);
 
   const logout = useCallback(async () => {
     try {
@@ -94,7 +92,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     isAuthenticated: user !== null,
     isOwner: user?.position === 'OWNER',
     isEmployee: user?.position === 'EMPLOYEE',
-    isAdmin: user?.position === 'ADMIN',
     isLoading,
     authError,
     refreshUser,

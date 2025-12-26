@@ -1,6 +1,5 @@
 import styles from './CompanyOwnerForm.module.css';
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
 import FormInput from '../../../Form/FormInput';
 
 export interface CompanyOwnerFormValues {
@@ -12,7 +11,7 @@ export interface CompanyOwnerFormValues {
 }
 
 interface CompanyOwnerFormProps {
-  onSubmit: (values: CompanyOwnerFormValues) => void;
+  onSubmit: (values: CompanyOwnerFormValues) => Promise<void> | void;
   isSubmitting: boolean;
   errorMessage: string | null;
   successMessage?: string | null;
@@ -39,14 +38,16 @@ function CompanyOwnerForm({
     },
   });
 
-  useEffect(() => {
-    if (successMessage) {
+  const handleFormSubmit = async (values: CompanyOwnerFormValues) => {
+    await onSubmit(values);
+
+    if (successMessage && !errorMessage) {
       reset();
     }
-  }, [successMessage, reset]);
+  }
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+    <form className={styles.form} onSubmit={handleSubmit(handleFormSubmit)}>
       <h1 className={styles.title}>Register your company</h1>
       <FormInput
         id="companyName"

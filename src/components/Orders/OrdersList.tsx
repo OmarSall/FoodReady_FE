@@ -51,7 +51,7 @@ function OrdersList({
           >
             {STATUS_OPTIONS.map((status) => (
               <option key={status} value={status}>
-                {status.replace('_', ' ')}
+                {status.replaceAll('_', ' ')}
               </option>
             ))}
           </select>

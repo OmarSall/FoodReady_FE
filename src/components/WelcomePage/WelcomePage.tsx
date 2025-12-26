@@ -1,5 +1,6 @@
 import styles from './WelcomePage.module.css';
 import { Link } from 'react-router-dom';
+import { ROUTES } from '../../constants/routes';
 
 function WelcomePage() {
   return (
@@ -12,10 +13,10 @@ function WelcomePage() {
             account.
           </p>
           <div className={styles.actions}>
-            <Link to="/register-company" className={styles.primaryButton}>
+            <Link to={ROUTES.REGISTER_COMPANY} className={styles.primaryButton}>
               Register Company (owner)
             </Link>
-            <Link to="/login" className={styles.secondaryButton}>
+            <Link to={ROUTES.LOGIN} className={styles.secondaryButton}>
               Log in
             </Link>
             <p className={styles.helperText}>

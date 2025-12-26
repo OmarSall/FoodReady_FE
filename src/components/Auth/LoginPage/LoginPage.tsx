@@ -1,26 +1,33 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  type Location,
+} from 'react-router-dom';
 import { useState } from 'react';
 import { logIn } from '../../../api/authenticationApi';
 import LoginForm, { type LoginFormValues } from './LoginForm/LoginForm';
 import { ApiError } from '../../../http/api-error';
 import styles from './LoginPage.module.css';
 import { useAuth } from '../../../auth/AuthContext';
+import { ROUTES } from '../../../constants/routes';
 
-const DEFAULT_DASHBOARD_PATH = '/orders';
+interface LocationState {
+  from?: Location;
+}
 
 function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { refreshUser } = useAuth();
+  const { login } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const fromPathname =
-    (location.state as { from?: Location } | null)?.from?.pathname ?? null;
-
+  const state = location.state as LocationState | undefined;
+  const fromPathname = state?.from?.pathname ?? null;
   const targetPath =
-    !fromPathname || fromPathname === '/'
-      ? DEFAULT_DASHBOARD_PATH
+    !fromPathname || fromPathname === ROUTES.HOME
+      ? ROUTES.ORDERS
       : fromPathname;
 
   const handleSubmit = async (values: LoginFormValues) => {
@@ -28,8 +35,8 @@ function LoginPage() {
     setErrorMessage(null);
 
     try {
-      await logIn(values);
-      await refreshUser();
+      const user = await logIn(values);
+      login(user);
       navigate(targetPath, { replace: true });
     } catch (error) {
       if (error instanceof ApiError) {
@@ -53,13 +60,13 @@ function LoginPage() {
         <div className={styles.links}>
           <p className={styles.linkText}>
             Don't have a company yet?{' '}
-            <Link to="/register-company" className={styles.link}>
+            <Link to={ROUTES.REGISTER_COMPANY} className={styles.link}>
               Register your company
             </Link>
           </p>
           <p className={styles.linkText}>
             Back to{' '}
-            <Link to="/" className={styles.link}>
+            <Link to={ROUTES.HOME} className={styles.link}>
               welcome page
             </Link>
           </p>

@@ -5,11 +5,12 @@ import CompanyOwnerForm, {
 import {
   registerCompany,
   type RegisterCompanyResponse,
-} from '../../../api/registerCompanyApi';
+} from '../../../api/companiesApi';
 import { ApiError } from '../../../http/api-error';
 import Modal from '../../modals/RegistrationModal';
 import styles from './CompanyRegistrationPage.module.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../../constants/routes';
 
 function CompanyRegistrationPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -41,7 +42,7 @@ function CompanyRegistrationPage() {
 
   const handleCloseSuccessModal = () => {
     setIsSuccessModalOpen(false);
-    navigate('/login', { replace: true });
+    navigate(ROUTES.LOGIN, { replace: true });
   };
 
   return (
@@ -58,13 +59,13 @@ function CompanyRegistrationPage() {
         <div className={styles.links}>
           <p className={styles.linkText}>
             Already have a company?{' '}
-            <Link to="/login" className={styles.link}>
+            <Link to={ROUTES.LOGIN} className={styles.link}>
               Log in
             </Link>
           </p>
           <p className={styles.linkText}>
             Back to{' '}
-            <Link to="/" className={styles.link}>
+            <Link to={ROUTES.HOME} className={styles.link}>
               welcome page
             </Link>
           </p>

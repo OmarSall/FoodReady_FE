@@ -4,7 +4,7 @@ import { useAuth } from '../../auth/AuthContext';
 import CreateEmployeeForm, {
   type CreateEmployeeFormValues,
 } from './CreateEmployeeForm/CreateEmployeeForm';
-import { createEmployee } from '../../api/createEmployeeApi';
+import { createEmployee } from '../../api/employeesApi';
 import { ApiError } from '../../http/api-error';
 
 function EmployeesPage() {
@@ -55,7 +55,7 @@ function EmployeesPage() {
       <div className={styles.companyBox}>
         <h2 className={styles.sectionTitle}>Your company</h2>
         <p className={styles.sectionText}>
-          You are logged in as <strong>OWNER</strong> of{' '}
+          You are logged in as <strong>{user?.position}</strong> of{' '}
           <strong>{user?.company?.name ?? 'your company'}</strong>.
         </p>
         <p className={styles.sectionText}>

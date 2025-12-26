@@ -58,7 +58,7 @@ function OrdersPage() {
           description: values.description,
         });
 
-        setOrders((previousOrders) => [...previousOrders, newOrder]);
+        setOrders((previousOrders) => [newOrder, ...previousOrders]);
         setCreateSuccess('Order has been created.');
       } catch (error) {
         if (error instanceof ApiError) {

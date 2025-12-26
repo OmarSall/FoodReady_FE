@@ -1,9 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
 import styles from './NotFoundPage.module.css';
-
-const DEFAULT_PUBLIC_PATH = '/';
-const DEFAULT_DASHBOARD_PATH = '/orders';
+import { ROUTES } from '../../constants/routes';
 
 function NotFoundPage() {
   const navigate = useNavigate();
@@ -12,9 +10,9 @@ function NotFoundPage() {
 
   const getDefaultRedirectPath = () => {
     if (!isAuthenticated) {
-      return DEFAULT_PUBLIC_PATH;
+      return ROUTES.HOME;
     }
-    return DEFAULT_DASHBOARD_PATH;
+    return ROUTES.ORDERS;
   };
 
   const handleGoBack = () => {
