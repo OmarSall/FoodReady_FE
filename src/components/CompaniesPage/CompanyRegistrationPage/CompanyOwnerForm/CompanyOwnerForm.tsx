@@ -11,31 +11,43 @@ export interface CompanyOwnerFormValues {
 }
 
 interface CompanyOwnerFormProps {
-  onSubmit: (values: CompanyOwnerFormValues) => void;
+  onSubmit: (values: CompanyOwnerFormValues) => Promise<void> | void;
   isSubmitting: boolean;
   errorMessage: string | null;
+  successMessage?: string | null;
 }
 
 function CompanyOwnerForm({
   onSubmit,
   isSubmitting,
   errorMessage,
+  successMessage,
 }: CompanyOwnerFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<CompanyOwnerFormValues>({
     defaultValues: {
       companyName: '',
       ownerName: '',
       email: '',
       password: '',
+      confirmPassword: '',
     },
   });
 
+  const handleFormSubmit = async (values: CompanyOwnerFormValues) => {
+    await onSubmit(values);
+
+    if (successMessage && !errorMessage) {
+      reset();
+    }
+  };
+
   return (
-    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+    <form className={styles.form} onSubmit={handleSubmit(handleFormSubmit)}>
       <h1 className={styles.title}>Register your company</h1>
       <FormInput
         id="companyName"
