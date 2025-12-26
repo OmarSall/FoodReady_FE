@@ -44,7 +44,7 @@ function CompanyOwnerForm({
     if (successMessage && !errorMessage) {
       reset();
     }
-  }
+  };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(handleFormSubmit)}>

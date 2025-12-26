@@ -35,7 +35,7 @@ function CreateEmployeeForm({
     await onSubmit(values);
 
     reset();
-  }
+  };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(handleFormSubmit)}>

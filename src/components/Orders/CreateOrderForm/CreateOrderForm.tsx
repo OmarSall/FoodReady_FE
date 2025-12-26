@@ -38,7 +38,7 @@ function CreateOrderForm({
     if (successMessage && !errorMessage) {
       reset();
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
