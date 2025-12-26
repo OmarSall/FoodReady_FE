@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
 import styles from './CreateOrderForm.module.css';
+import FormInput from '../../Form/FormInput';
 
 export interface CreateOrderFormValues {
   title: string;
@@ -8,7 +8,7 @@ export interface CreateOrderFormValues {
 }
 
 interface CreateOrderFormProps {
-  onSubmit: (values: CreateOrderFormValues) => void;
+  onSubmit: (values: CreateOrderFormValues) => Promise<void> | void;
   isSubmitting?: boolean;
   errorMessage?: string | null;
   successMessage?: string | null;
@@ -32,37 +32,29 @@ function CreateOrderForm({
     },
   });
 
-  useEffect(() => {
-    if (successMessage) {
+  const handleFormSubmit = async (values: CreateOrderFormValues) => {
+    await onSubmit(values);
+
+    if (successMessage && !errorMessage) {
       reset();
     }
-  }, [successMessage, reset]);
+  }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(handleFormSubmit)}>
       <h3 className={styles.title}>Create new order</h3>
-      <div className={styles.field}>
-        <label htmlFor="title">Order title</label>
-        <input
-          id="title"
-          type="text"
-          className={`${styles.input} ${errors.title ? styles.inputError : ''}`}
-          aria-invalid={Boolean(errors.title)}
-          aria-describedby={errors.title ? 'order-title-error' : undefined}
-          {...register('title', {
-            required: 'Order title is required',
-            minLength: {
-              value: 2,
-              message: 'Title must be at least 2 characters long',
-            },
-          })}
-        />
-        {errors.title?.message && (
-          <div id="order-title-error" className={styles.error}>
-            {errors.title.message}
-          </div>
-        )}
-      </div>
+      <FormInput
+        id="title"
+        label="Order title"
+        register={register('title', {
+          required: 'Order title is required',
+          minLength: {
+            value: 2,
+            message: 'Title must be at least 2 characters long',
+          },
+        })}
+        error={errors.title}
+      />
       <div className={styles.field}>
         <label htmlFor="description" className={styles.label}>
           Description (optional)

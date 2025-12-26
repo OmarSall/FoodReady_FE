@@ -1,12 +1,10 @@
-import type { AuthenticatedUser } from '../../auth/auth-types';
 import { useAuth } from '../../auth/AuthContext';
 import styles from './DashboardLayout.module.css';
 import { NavLink, Outlet } from 'react-router-dom';
 import LogoutButton from '../Auth/LogoutButton/LogoutButton.tsx';
 import { ROUTES } from '../../constants/routes';
 import { useMemo } from 'react';
-
-type Role = AuthenticatedUser['position'];
+import type { Role } from '../../auth/auth-types';
 
 interface MenuItem {
   route: string;

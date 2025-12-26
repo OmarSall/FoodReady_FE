@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
 import styles from './CreateEmployeeForm.module.css';
-import { useEffect } from 'react';
 
 export interface CreateEmployeeFormValues {
   name: string;
@@ -8,7 +7,7 @@ export interface CreateEmployeeFormValues {
 }
 
 interface CreateEmployeeFormProps {
-  onSubmit: (values: CreateEmployeeFormValues) => void;
+  onSubmit: (values: CreateEmployeeFormValues) => Promise<void> | void;
   isSubmitting: boolean;
   errorMessage?: string | null;
   successMessage?: string | null;
@@ -32,14 +31,14 @@ function CreateEmployeeForm({
     },
   });
 
-  useEffect(() => {
-    if (successMessage) {
-      reset();
-    }
-  }, [successMessage, reset]);
+  const handleFormSubmit = async (values: CreateEmployeeFormValues) => {
+    await onSubmit(values);
+
+    reset();
+  }
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+    <form className={styles.form} onSubmit={handleSubmit(handleFormSubmit)}>
       <h3 className={styles.title}>Create employee</h3>
       <div className={styles.field}>
         <label htmlFor="name" className={styles.label}>

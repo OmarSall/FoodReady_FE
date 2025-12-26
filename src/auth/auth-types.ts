@@ -1,8 +1,10 @@
+export type Role = 'OWNER' | 'EMPLOYEE';
+
 export interface AuthenticatedUser {
   id: number;
   name: string;
   email: string;
-  position: 'OWNER' | 'EMPLOYEE';
+  position: Role;
   companyId: number;
   company?: {
     id: number;
