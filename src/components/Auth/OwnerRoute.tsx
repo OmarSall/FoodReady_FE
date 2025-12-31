@@ -2,18 +2,22 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
 import { ROUTES } from '../../constants/routes.ts';
 
-function GuestRoute() {
-  const { isAuthenticated, isLoading } = useAuth();
+function OwnerRoute() {
+  const { isEmployee, isOwner, isLoading } = useAuth();
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (isAuthenticated) {
+  if (isOwner) {
+    return <Outlet />;
+  }
+
+  if (isEmployee) {
     return <Navigate to={ROUTES.ORDERS} replace />;
   }
 
-  return <Outlet />;
+  return <Navigate to={ROUTES.HOME} replace />;
 }
 
-export default GuestRoute;
+export default OwnerRoute;

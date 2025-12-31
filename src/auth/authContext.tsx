@@ -1,13 +1,14 @@
 import {
   createContext,
-  type ReactNode, useCallback,
+  type ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useState,
 } from 'react';
-import { request } from '../http/request';
-import { isApiError, isUnauthorized } from './auth-helpers';
-import type { AuthenticatedUser } from './auth-types';
+import type { AuthenticatedUser } from './authTypes';
+import { getCurrentUser, logOut } from '../api/authenticationApi';
+import { isApiError, isUnauthorized } from './authHelpers';
 
 interface AuthContextValue {
   user: AuthenticatedUser | null;
@@ -18,6 +19,7 @@ interface AuthContextValue {
   authError: string | null;
   refreshUser: () => Promise<void>;
   clearUser: () => void;
+  logout: () => Promise<void>;
   login: (user: AuthenticatedUser) => void;
 }
 
@@ -32,17 +34,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [authError, setAuthError] = useState<string | null>(null);
 
+  const clearUser = useCallback(() => {
+    setUser(null);
+    setAuthError(null);
+  }, []);
+
   const refreshUser = useCallback(async () => {
     setIsLoading(true);
     setAuthError(null);
     try {
-      const data = await request<AuthenticatedUser>('GET', '/authentication');
+      const data = await getCurrentUser();
       setUser(data);
-      setAuthError(null);
     } catch (error) {
       if (isUnauthorized(error)) {
-        setUser(null);
-        setAuthError(null);
+        clearUser();
         return;
       }
 
@@ -51,6 +56,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           statusCode: error.statusCode,
           rawMessage: error.rawMessage,
         });
+        clearUser();
         setAuthError('Failed to verify authentication. Please try again later');
         return;
       }
@@ -59,22 +65,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [clearUser]);
 
-  const clearUser = () => {
-    setUser(null);
-    setAuthError(null);
-  };
+  const logout = useCallback(async () => {
+    try {
+      await logOut();
+    } catch (error) {
+      console.warn('Failed to log out', error);
+    } finally {
+      clearUser();
+    }
+  }, [clearUser]);
 
   useEffect(() => {
     void refreshUser();
   }, [refreshUser]);
 
-  const login = (authenticatedUser: AuthenticatedUser) => {
+  const login = useCallback((authenticatedUser: AuthenticatedUser) => {
     setUser(authenticatedUser);
     setAuthError(null);
     setIsLoading(false);
-  };
+  }, []);
 
   const value: AuthContextValue = {
     user,
@@ -85,6 +96,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     authError,
     refreshUser,
     clearUser,
+    logout,
     login,
   };
 

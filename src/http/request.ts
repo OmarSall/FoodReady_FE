@@ -7,11 +7,16 @@ interface RequestOptions {
   body?: unknown;
 }
 
-const parseBody = (response: Response) => {
-  if (response.headers.get('content-type')?.includes('application/json')) {
+const parseBody = async (response: Response) => {
+  if (response.status === 204) {
+    return undefined;
+  }
+
+  const contentType = response.headers.get('content-type');
+  if (contentType?.includes('application/json')) {
     return response.json();
   }
-  return null;
+  return undefined;
 };
 
 export async function request<TResponse>(

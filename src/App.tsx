@@ -1,33 +1,39 @@
-import './App.css';
 import { Routes, Route } from 'react-router-dom';
-import CompanyRegistrationPage from './components/CompaniesPage/CompanyRegistrationPage/CompanyRegistrationPage';
+import GuestRoute from './components/Auth/GuestRoute';
+import ProtectedRoute from './components/Auth/ProtectedRoute';
+import OwnerRoute from './components/Auth/OwnerRoute';
 import WelcomePage from './components/WelcomePage/WelcomePage';
 import LoginPage from './components/Auth/LoginPage/LoginPage';
-import GuestRoute from './components/Auth/GuestRoute.tsx';
+import CompanyRegistrationPage from './components/CompaniesPage/CompanyRegistrationPage/CompanyRegistrationPage';
+import DashboardLayout from './components/Dashboard/DashboardLayout';
+import OrdersPage from './components/Orders/OrdersPage';
+import EmployeesPage from './components/Employees/EmployeesPage';
+import NotFoundPage from './components/NotFoundPage/NotFoundPage';
+import { ROUTES } from './constants/routes';
 
 function App() {
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<WelcomePage />} />
+    <Routes>
+      <Route element={<GuestRoute />}>
+        <Route path={ROUTES.HOME} element={<WelcomePage />} />
+        <Route path={ROUTES.LOGIN} element={<LoginPage />} />
         <Route
-          path="/register-company"
-          element={
-            <GuestRoute>
-              <CompanyRegistrationPage />
-            </GuestRoute>
-          }
+          path={ROUTES.REGISTER_COMPANY}
+          element={<CompanyRegistrationPage />}
         />
-        <Route
-          path="/login"
-          element={
-            <GuestRoute>
-              <LoginPage />
-            </GuestRoute>
-          }
-        />
-      </Routes>
-    </>
+      </Route>
+
+      <Route element={<ProtectedRoute />}>
+        <Route element={<DashboardLayout />}>
+          <Route path={ROUTES.ORDERS} element={<OrdersPage />} />
+          <Route element={<OwnerRoute />}>
+            <Route path={ROUTES.EMPLOYEES} element={<EmployeesPage />} />
+          </Route>
+        </Route>
+      </Route>
+
+      <Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} />
+    </Routes>
   );
 }
 

@@ -1,5 +1,6 @@
 import styles from './WelcomePage.module.css';
 import { Link } from 'react-router-dom';
+import { ROUTES } from '../../constants/routes';
 
 function WelcomePage() {
   return (
@@ -11,33 +12,22 @@ function WelcomePage() {
             A simple workflow for owners and employees to manage their company
             account.
           </p>
-          <div className={styles.action}>
-            <Link to="/register-company" className={styles.primaryButton}>
+          <div className={styles.actions}>
+            <Link to={ROUTES.REGISTER_COMPANY} className={styles.primaryButton}>
               Register Company (owner)
             </Link>
-            <Link to="/login" className={styles.secondaryButton}>
+            <Link to={ROUTES.LOGIN} className={styles.secondaryButton}>
               Log in
             </Link>
             <p className={styles.helperText}>
               Owners register a company and create employee accounts. Employees
               and owners that registered their company can login.
             </p>
-            <div className={styles.actions}>
-              <Link to="/register-company" className={styles.primaryButton}>
-                Register Company (owner)
-              </Link>
-              <Link to="/login" className={styles.secondaryButton}>
-                Log in
-              </Link>
-              <p className={styles.helperText}>
-                Owners register a company and create employee accounts.
-                Employees and owners that registered their company can login.
-              </p>
-            </div>
-          </section>
-        </div>
+          </div>
+        </section>
       </main>
     </>
   );
 }
+
 export default WelcomePage;
