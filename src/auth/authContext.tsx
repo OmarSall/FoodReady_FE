@@ -6,9 +6,9 @@ import {
   useEffect,
   useState,
 } from 'react';
-import type { AuthenticatedUser } from './auth-types';
+import type { AuthenticatedUser } from './authTypes';
 import { getCurrentUser, logOut } from '../api/authenticationApi';
-import { isApiError, isUnauthorized } from './auth-helpers';
+import { isApiError, isUnauthorized } from './authHelpers';
 
 interface AuthContextValue {
   user: AuthenticatedUser | null;

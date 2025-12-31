@@ -16,6 +16,18 @@ interface LocationState {
   from?: Location;
 }
 
+function resolveTargetPath(fromPathname: string | null): string {
+  if (!fromPathname) {
+    return ROUTES.ORDERS;
+  }
+
+  if (fromPathname === ROUTES.HOME) {
+    return ROUTES.ORDERS
+  }
+
+  return fromPathname;
+}
+
 function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,10 +37,7 @@ function LoginPage() {
 
   const state = location.state as LocationState | undefined;
   const fromPathname = state?.from?.pathname ?? null;
-  const targetPath =
-    !fromPathname || fromPathname === ROUTES.HOME
-      ? ROUTES.ORDERS
-      : fromPathname;
+  const targetPath = resolveTargetPath(fromPathname)
 
   const handleSubmit = async (values: LoginFormValues) => {
     setIsSubmitting(true);
