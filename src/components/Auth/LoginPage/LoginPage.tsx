@@ -22,7 +22,7 @@ function resolveTargetPath(fromPathname: string | null): string {
   }
 
   if (fromPathname === ROUTES.HOME) {
-    return ROUTES.ORDERS
+    return ROUTES.ORDERS;
   }
 
   return fromPathname;
@@ -37,7 +37,7 @@ function LoginPage() {
 
   const state = location.state as LocationState | undefined;
   const fromPathname = state?.from?.pathname ?? null;
-  const targetPath = resolveTargetPath(fromPathname)
+  const targetPath = resolveTargetPath(fromPathname);
 
   const handleSubmit = async (values: LoginFormValues) => {
     setIsSubmitting(true);

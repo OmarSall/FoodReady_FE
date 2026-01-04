@@ -10,6 +10,7 @@ import OrdersPage from './components/Orders/OrdersPage';
 import EmployeesPage from './components/Employees/EmployeesPage';
 import NotFoundPage from './components/NotFoundPage/NotFoundPage';
 import { ROUTES } from './constants/routes';
+import OrderTrackingPage from './components/OrderTracking/OrderTrackingPage/OrderTrackingPage.tsx';
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
           </Route>
         </Route>
       </Route>
-
+      <Route path={ROUTES.TRACK_ORDER} element={<OrderTrackingPage />} />
       <Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} />
     </Routes>
   );
