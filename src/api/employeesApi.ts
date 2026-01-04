@@ -1,6 +1,6 @@
 import { request } from '../http/request';
 import { API_ENDPOINTS } from '../constants/api';
-import type { AuthenticatedUser } from '../auth/auth-types';
+import type { AuthenticatedUser } from '../auth/authTypes';
 
 type Role = AuthenticatedUser['position'];
 

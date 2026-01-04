@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../auth/AuthContext';
+import { useAuth } from '../../auth/authContext';
 import styles from './NotFoundPage.module.css';
 import { ROUTES } from '../../constants/routes';
 
