@@ -8,7 +8,7 @@ export const API_ENDPOINTS = {
     CURRENT_USER: '/authentication',
   },
   ORDERS: '/orders',
-  ORDER_TRACKING: '/orders/track',
+  ORDER_TRACKING: '/order-tracking',
   EMPLOYEES: '/employees',
   COMPANIES: {
     REGISTER: '/companies/register',

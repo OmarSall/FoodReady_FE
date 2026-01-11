@@ -11,9 +11,15 @@ function OrderTrackingError({ message, onRetry }: OrderTrackingErrorProps) {
       <p className={styles.stateTitle}>We could not load your order.</p>
       <p className={styles.stateText}>{message}</p>
 
-      <button type="button" className={styles.primaryButton} onClick={onRetry}>
-        Try again
-      </button>
+      {onRetry && (
+        <button
+          type="button"
+          className={styles.primaryButton}
+          onClick={onRetry}
+        >
+          Try again
+        </button>
+      )}
     </div>
   );
 }

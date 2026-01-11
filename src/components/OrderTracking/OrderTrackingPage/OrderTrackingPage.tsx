@@ -2,73 +2,98 @@ import {
   getOrderTrackingStatus,
   type OrderTrackingResponse,
 } from '../../../api/orderTrackingApi.ts';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ApiError } from '../../../http/api-error.ts';
 import styles from './OrderTrackingPage.module.css';
 import OrderTrackingLoading from './OrderTrackingLoading.tsx';
 import OrderTrackingError from './OrderTrackingError.tsx';
 import OrderTrackingStatus from './OrderTrackingStatus.tsx';
+import { mapOrderTrackingError } from './orderTrackingErrorMapper.ts';
 
 type ViewState =
   | { kind: 'loading' }
-  | { kind: 'error'; message: string }
+  | { kind: 'error'; message: string; canRetry: boolean }
   | { kind: 'success'; data: OrderTrackingResponse };
+
+const POLL_INTERVAL_MS = 10_000;
+
+function isFinalStatus(status: OrderTrackingResponse['status']) {
+  return status === 'COMPLETED' || status === 'CANCELLED';
+}
 
 function OrderTrackingPage() {
   const { trackingId } = useParams<{ trackingId: string }>();
   const [state, setState] = useState<ViewState>({ kind: 'loading' });
-  const [refreshKey, setRefreshKey] = useState(0);
+  const isActiveRef = useRef(true);
+  const intervalIdRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    let isActive = true;
+  const stopPolling = useCallback(() => {
+    if (intervalIdRef.current !== null) {
+      window.clearInterval(intervalIdRef.current);
+      intervalIdRef.current = null;
+    }
+  }, []);
 
-    const load = async () => {
-      if (!trackingId) {
-        setState({ kind: 'error', message: 'Missing tracking id.' });
+  const fetchStatus = useCallback(async () => {
+    if (!trackingId) {
+      setState({
+        kind: 'error',
+        message: 'Missing tracking id.',
+        canRetry: false,
+      });
+      stopPolling();
+      return;
+    }
+
+    try {
+      const result = await getOrderTrackingStatus(trackingId);
+
+      if (!isActiveRef.current) {
         return;
       }
-      setState({ kind: 'loading' });
 
-      try {
-        const result = await getOrderTrackingStatus(trackingId);
-        if (!isActive) {
-          return;
-        }
-        setState({ kind: 'success', data: result });
-      } catch (error) {
-        if (!isActive) {
-          return;
-        }
+      setState({ kind: 'success', data: result });
 
-        if (error instanceof ApiError && error.statusCode === 404) {
-          setState({
-            kind: 'error',
-            message: 'Invalid or expired tracking link.',
-          });
-          return;
-        }
-
-        if (error instanceof Error) {
-          setState({ kind: 'error', message: error.message });
-          return;
-        }
-
-        setState({ kind: 'error', message: 'Could not load tracking status.' });
+      if (isFinalStatus(result.status)) {
+        stopPolling();
       }
-    };
-    void load();
+    } catch (error) {
+      if (!isActiveRef.current) {
+        return;
+      }
+      setState(mapOrderTrackingError(error));
+    }
+  }, [trackingId, stopPolling]);
+
+  useEffect(() => {
+    isActiveRef.current = true;
+
+    if (!trackingId) {
+      setState({
+        kind: 'error',
+        message: 'Missing tracking id.',
+        canRetry: false,
+      });
+      stopPolling();
+      return () => {
+        isActiveRef.current = false;
+      };
+    }
+
+    setState({ kind: 'loading' });
+    void fetchStatus();
+
+    intervalIdRef.current = window.setInterval(() => {
+      void fetchStatus();
+    }, POLL_INTERVAL_MS);
+
     return () => {
-      isActive = false;
+      isActiveRef.current = false;
+      stopPolling();
     };
-  }, [trackingId, refreshKey]);
+  }, [fetchStatus, stopPolling, trackingId]);
 
-  const handleRetry = () => {
-    setRefreshKey((previousValue) => previousValue + 1);
-  };
-
-  const title = trackingId ? 'Track your order' : 'invalid tracking link';
-  console.log('STATE', state);
+  const title = trackingId ? 'Track your order' : 'Invalid tracking link';
 
   return (
     <main className={styles.page} aria-labelledby="order-tracking-title">
@@ -86,7 +111,17 @@ function OrderTrackingPage() {
         {state.kind === 'loading' && <OrderTrackingLoading />}
 
         {state.kind === 'error' && (
-          <OrderTrackingError message={state.message} onRetry={handleRetry} />
+          <OrderTrackingError
+            message={state.message}
+            onRetry={
+              state.canRetry
+                ? () => {
+                    setState({ kind: 'loading' });
+                    void fetchStatus();
+                  }
+                : undefined
+            }
+          />
         )}
 
         {state.kind === 'success' && <OrderTrackingStatus data={state.data} />}
@@ -94,4 +129,5 @@ function OrderTrackingPage() {
     </main>
   );
 }
+
 export default OrderTrackingPage;
