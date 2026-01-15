@@ -35,38 +35,42 @@ function OrderTrackingPage() {
     }
   }, []);
 
-  const fetchStatus = useCallback(async () => {
-    if (!trackingId) {
-      setState({
-        kind: 'error',
-        message: 'Missing tracking id.',
-        canRetry: false,
-      });
-      stopPolling();
-      return;
-    }
-
-    setState({ kind: 'loading' });
-
-    try {
-      const result = await getOrderTrackingStatus(trackingId);
-
-      if (!isActiveRef.current) {
-        return;
-      }
-
-      setState({ kind: 'success', data: result });
-
-      if (isFinalStatus(result.status)) {
+  const fetchStatus = useCallback(
+    async (options?: { showLoading?: boolean }) => {
+      if (!trackingId) {
+        setState({
+          kind: 'error',
+          message: 'Missing tracking id.',
+          canRetry: false,
+        });
         stopPolling();
-      }
-    } catch (error) {
-      if (!isActiveRef.current) {
         return;
       }
-      setState(mapOrderTrackingError(error));
-    }
-  }, [trackingId, stopPolling]);
+      if (options?.showLoading) {
+        setState({ kind: 'loading' });
+      }
+
+      try {
+        const result = await getOrderTrackingStatus(trackingId);
+
+        if (!isActiveRef.current) {
+          return;
+        }
+
+        setState({ kind: 'success', data: result });
+
+        if (isFinalStatus(result.status)) {
+          stopPolling();
+        }
+      } catch (error) {
+        if (!isActiveRef.current) {
+          return;
+        }
+        setState(mapOrderTrackingError(error));
+      }
+    },
+    [trackingId, stopPolling],
+  );
 
   useEffect(() => {
     isActiveRef.current = true;
@@ -83,7 +87,7 @@ function OrderTrackingPage() {
       };
     }
 
-    void fetchStatus();
+    void fetchStatus({ showLoading: true });
 
     intervalIdRef.current = window.setInterval(() => {
       void fetchStatus();
@@ -97,7 +101,9 @@ function OrderTrackingPage() {
 
   const title = trackingId ? 'Track your order' : 'Invalid tracking link';
   const handleRetry =
-    state.kind === 'error' && state.canRetry ? () => void fetchStatus() : undefined;
+    state.kind === 'error' && state.canRetry
+      ? () => void fetchStatus({ showLoading: true })
+      : undefined;
 
   return (
     <main className={styles.page} aria-labelledby="order-tracking-title">
@@ -115,10 +121,7 @@ function OrderTrackingPage() {
         {state.kind === 'loading' && <OrderTrackingLoading />}
 
         {state.kind === 'error' && (
-          <OrderTrackingError
-            message={state.message}
-            onRetry={handleRetry}
-          />
+          <OrderTrackingError message={state.message} onRetry={handleRetry} />
         )}
 
         {state.kind === 'success' && <OrderTrackingStatus data={state.data} />}
