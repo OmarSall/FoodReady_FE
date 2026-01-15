@@ -1,5 +1,5 @@
 import { request } from '../http/request';
-import type { AuthenticatedUser } from '../auth/auth-types';
+import type { AuthenticatedUser } from '../auth/authTypes';
 import { API_ENDPOINTS } from '../constants/api';
 
 export interface LogInPayload {

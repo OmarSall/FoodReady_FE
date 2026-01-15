@@ -1,5 +1,5 @@
 import { request } from '../http/request';
-import { API_ENDPOINTS, apiPaths } from '../constants/api';
+import { API_ENDPOINTS, API_PATHS } from '../constants/api';
 
 export type OrderStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
 
@@ -33,5 +33,5 @@ export function updateOrderStatus(
   id: number,
   payload: UpdateOrderStatusPayload,
 ): Promise<void> {
-  return request('PATCH', apiPaths.orderById(id), { body: payload });
+  return request('PATCH', API_PATHS.orderById(id), { body: payload });
 }

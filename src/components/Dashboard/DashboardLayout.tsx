@@ -1,10 +1,10 @@
-import { useAuth } from '../../auth/AuthContext';
+import { useAuth } from '../../auth/authContext';
 import styles from './DashboardLayout.module.css';
 import { NavLink, Outlet } from 'react-router-dom';
 import LogoutButton from '../Auth/LogoutButton/LogoutButton.tsx';
 import { ROUTES } from '../../constants/routes';
 import { useMemo } from 'react';
-import type { Role } from '../../auth/auth-types';
+import type { Role } from '../../auth/authTypes';
 
 interface MenuItem {
   route: string;

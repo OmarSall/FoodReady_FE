@@ -30,6 +30,11 @@ function OrdersPage() {
 
     try {
       const data = await getOrders();
+      if (!Array.isArray(data)) {
+        setOrders([]);
+        setOrdersError('Orders endpoint returned invalid data.');
+        return;
+      }
       setOrders(data);
     } catch (error) {
       if (error instanceof ApiError) {
