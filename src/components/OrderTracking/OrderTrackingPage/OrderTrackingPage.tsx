@@ -1,6 +1,7 @@
 import {
   getOrderTrackingStatus,
   type OrderTrackingResponse,
+  type PublicOrderStatus,
 } from '../../../api/orderTrackingApi.ts';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -17,7 +18,7 @@ type ViewState =
 
 const POLL_INTERVAL_MS = 10_000;
 
-function isFinalStatus(status: OrderTrackingResponse['status']) {
+function isFinalStatus(status: PublicOrderStatus) {
   return status === 'COMPLETED' || status === 'CANCELLED';
 }
 
@@ -44,6 +45,8 @@ function OrderTrackingPage() {
       stopPolling();
       return;
     }
+
+    setState({ kind: 'loading' });
 
     try {
       const result = await getOrderTrackingStatus(trackingId);
@@ -80,7 +83,6 @@ function OrderTrackingPage() {
       };
     }
 
-    setState({ kind: 'loading' });
     void fetchStatus();
 
     intervalIdRef.current = window.setInterval(() => {
@@ -94,6 +96,8 @@ function OrderTrackingPage() {
   }, [fetchStatus, stopPolling, trackingId]);
 
   const title = trackingId ? 'Track your order' : 'Invalid tracking link';
+  const handleRetry =
+    state.kind === 'error' && state.canRetry ? () => void fetchStatus() : undefined;
 
   return (
     <main className={styles.page} aria-labelledby="order-tracking-title">
@@ -113,14 +117,7 @@ function OrderTrackingPage() {
         {state.kind === 'error' && (
           <OrderTrackingError
             message={state.message}
-            onRetry={
-              state.canRetry
-                ? () => {
-                    setState({ kind: 'loading' });
-                    void fetchStatus();
-                  }
-                : undefined
-            }
+            onRetry={handleRetry}
           />
         )}
 
