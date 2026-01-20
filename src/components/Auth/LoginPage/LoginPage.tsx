@@ -1,8 +1,6 @@
 import {
   Link,
-  useLocation,
   useNavigate,
-  type Location,
 } from 'react-router-dom';
 import { useState } from 'react';
 import { logIn } from '../../../api/authenticationApi';
@@ -12,19 +10,11 @@ import styles from './LoginPage.module.css';
 import { useAuth } from '../../../auth/authContext';
 import { ROUTES } from '../../../constants/routes';
 
-interface LocationState {
-  from?: Location;
-}
-
 function LoginPage() {
   const navigate = useNavigate();
-  const location = useLocation();
   const { login } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const state = location.state as LocationState | undefined;
-  const targetPath = state?.from?.pathname ?? ROUTES.ORDERS;
 
   const handleSubmit = async (values: LoginFormValues) => {
     setIsSubmitting(true);
@@ -33,7 +23,7 @@ function LoginPage() {
     try {
       const user = await logIn(values);
       login(user);
-      navigate(targetPath, { replace: true });
+      navigate(ROUTES.ORDERS, { replace: true });
     } catch (error) {
       if (error instanceof ApiError) {
         setErrorMessage(error.message || 'Failed to log in.');
