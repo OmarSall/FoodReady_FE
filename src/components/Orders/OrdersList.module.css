@@ -44,3 +44,48 @@
   color: #f9fafb;
   font-size: 0.85rem;
 }
+
+.trackingBox {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.trackingLabel {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.qrWrap {
+  display: inline-block;
+  padding: 8px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+
+.trackingLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  padding: 8px 24px;
+  background-color: #22c55e;
+  color: #ffffff;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+  margin-left: 30px;
+}
+
+.trackingLink:hover {
+  background-color: #16a34a;
+}
+
+.trackingLink:active {
+  transform: scale(0.97);
+}

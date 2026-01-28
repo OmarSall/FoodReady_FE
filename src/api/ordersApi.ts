@@ -8,6 +8,7 @@ export interface Order {
   title: string;
   description?: string | null;
   status: OrderStatus;
+  trackingId: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -32,6 +33,6 @@ export function getOrders(): Promise<Order[]> {
 export function updateOrderStatus(
   id: number,
   payload: UpdateOrderStatusPayload,
-): Promise<void> {
-  return request('PATCH', API_PATHS.orderById(id), { body: payload });
+): Promise<Order> {
+  return request<Order>('PATCH', API_PATHS.orderById(id), { body: payload });
 }

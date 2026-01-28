@@ -10,7 +10,7 @@ import OrdersPage from './components/Orders/OrdersPage';
 import EmployeesPage from './components/Employees/EmployeesPage';
 import NotFoundPage from './components/NotFoundPage/NotFoundPage';
 import { ROUTES } from './constants/routes';
-import OrderTrackingPage from './components/OrderTracking/OrderTrackingPage/OrderTrackingPage.tsx';
+import OrderTrackingPage from './components/OrderTracking/OrderTrackingPage/OrderTrackingPage';
 
 function App() {
   return (
