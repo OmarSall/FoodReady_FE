@@ -6,9 +6,9 @@
     "packages/*"
   ],
   "scripts": {
-    "dev:portal": "npm run dev --workspace apps/customer-portal",
-    "dev:tracking": "npm run dev --workspace apps/order-tracking",
-    "build:portal": "npm run build --workspace apps/customer-portal",
-    "build:tracking": "npm run build --workspace apps/order-tracking"
+    "dev:portal": "npm run dev -w @foodready/customer-portal",
+    "dev:tracking": "npm run dev -w @foodready/order-tracking",
+    "build:portal": "npm run build -w @foodready/customer-portal",
+    "build:tracking": "npm run build -w @foodready/order-tracking"
   }
 }
