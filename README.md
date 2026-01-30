@@ -11,11 +11,13 @@ This setup allows independent development, build, and deployment of both applica
 ---
 
 ## 📁 Project structure
-
+```text
 apps/
-customer-portal/# Authenticated dashboard (employees, orders, companies)
-order-tracking/ # Public order tracking app (QR / tracking link)
-packages/ # Reserved for shared code (types, api contracts, utils)
+    customer-portal/    # Authenticated dashboard (employees, orders, companies)
+    order-tracking/     # Public order tracking app (QR / tracking link)
+    
+packages/               # Reserved for shared code (types, api contracts, utils)
+```
 
 
 ---
