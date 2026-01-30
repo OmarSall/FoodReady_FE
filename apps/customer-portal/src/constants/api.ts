@@ -8,7 +8,6 @@ export const API_ENDPOINTS = {
     CURRENT_USER: '/authentication',
   },
   ORDERS: '/orders',
-  ORDER_TRACKING: '/order-tracking',
   EMPLOYEES: '/employees',
   COMPANIES: {
     REGISTER: '/companies/register',
@@ -17,6 +16,4 @@ export const API_ENDPOINTS = {
 
 export const API_PATHS = {
   orderById: (id: number) => `${API_ENDPOINTS.ORDERS}/${id}`,
-  orderTrackingById: (trackingId: string) =>
-    `${API_ENDPOINTS.ORDER_TRACKING}/${trackingId}`,
 } as const;
