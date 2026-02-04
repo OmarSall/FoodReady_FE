@@ -1,15 +1,14 @@
 import { useCallback, useState } from 'react';
 import styles from './EmployeesPage.module.css';
-import { useAuth } from '../../auth/AuthContext';
+import { useAuth } from '../../auth/authContext';
 import CreateEmployeeForm, {
   type CreateEmployeeFormValues,
 } from './CreateEmployeeForm/CreateEmployeeForm';
 import { createEmployee } from '../../api/employeesApi';
-import { ApiError } from '../../http/api-error';
+import { ApiError } from "@foodready/shared";
 
 function EmployeesPage() {
   const { user } = useAuth();
-
   const [isCreating, setIsCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
   const [createSuccess, setCreateSuccess] = useState<string | null>(null);

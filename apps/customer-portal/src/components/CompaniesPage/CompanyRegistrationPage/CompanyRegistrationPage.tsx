@@ -6,7 +6,7 @@ import {
   registerCompany,
   type RegisterCompanyResponse,
 } from '../../../api/companiesApi';
-import { ApiError } from '../../../http/api-error';
+import { ApiError } from "@foodready/shared";
 import Modal from '../../modals/RegistrationModal';
 import styles from './CompanyRegistrationPage.module.css';
 import { Link, useNavigate } from 'react-router-dom';

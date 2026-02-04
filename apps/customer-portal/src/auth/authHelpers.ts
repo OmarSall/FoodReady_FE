@@ -1,4 +1,4 @@
-import { ApiError } from '../http/api-error';
+import { ApiError } from "@foodready/shared";
 
 export function isApiError(error: unknown): error is ApiError {
   return error instanceof ApiError;

@@ -1,6 +1,5 @@
 import { API_BASE_URL } from '../constants/api';
-import { ApiError, getErrorMessage } from './api-error';
-
+import { ApiError, getErrorMessage } from "@foodready/shared";
 const parseBody = async (response: Response) => {
     if (response.status === 204) {
         return undefined;
