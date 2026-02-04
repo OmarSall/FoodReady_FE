@@ -1,4 +1,4 @@
-import { ApiError } from "@foodready/shared";
+import { ApiError } from '@foodready/shared';
 
 export type OrderTrackingErrorViewState = {
   kind: 'error';

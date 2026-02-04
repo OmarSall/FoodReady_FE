@@ -1,5 +1,5 @@
 import { API_BASE_URL } from '../constants/api';
-import { ApiError, getErrorMessage, getErrorMetadata } from "@foodready/shared";
+import { ApiError, getErrorMessage, getErrorMetadata } from '@foodready/shared';
 type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 
 interface RequestOptions {

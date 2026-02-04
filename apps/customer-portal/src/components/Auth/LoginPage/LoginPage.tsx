@@ -1,11 +1,8 @@
-import {
-  Link,
-  useNavigate,
-} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { logIn } from '../../../api/authenticationApi';
 import LoginForm, { type LoginFormValues } from './LoginForm/LoginForm';
-import { ApiError } from "@foodready/shared";
+import { ApiError } from '@foodready/shared';
 import styles from './LoginPage.module.css';
 import { useAuth } from '../../../auth/authContext';
 import { ROUTES } from '../../../constants/routes';

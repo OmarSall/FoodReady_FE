@@ -51,7 +51,7 @@ function OrdersList({
 
                 <div
                   className={styles.qrWrap}
-                  aria-label='Order tracking QR code'
+                  aria-label="Order tracking QR code"
                 >
                   <QRCode value={trackingUrl} size={96} />
                 </div>
@@ -59,8 +59,8 @@ function OrdersList({
                 <a
                   className={styles.trackingLink}
                   href={trackingUrl}
-                  target='_blank'
-                  rel='noreferrer'
+                  target="_blank"
+                  rel="noreferrer"
                 >
                   Open tracking page
                 </a>

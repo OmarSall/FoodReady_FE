@@ -12,7 +12,7 @@ function NotFoundPage() {
           </h1>
 
           <p className={styles.subtitle}>
-            We could not find any page that matches{" "}
+            We could not find any page that matches{' '}
             <span className={styles.mono}>{location.pathname}</span>.
           </p>
         </header>
@@ -20,8 +20,7 @@ function NotFoundPage() {
         <div className={styles.stateBoxError}>
           <h2 className={styles.stateTitle}>404</h2>
           <p className={styles.stateText}>
-            Please check the link from your QR code and
-            try again.
+            Please check the link from your QR code and try again.
           </p>
         </div>
       </section>

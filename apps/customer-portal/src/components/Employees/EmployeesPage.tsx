@@ -5,7 +5,7 @@ import CreateEmployeeForm, {
   type CreateEmployeeFormValues,
 } from './CreateEmployeeForm/CreateEmployeeForm';
 import { createEmployee } from '../../api/employeesApi';
-import { ApiError } from "@foodready/shared";
+import { ApiError } from '@foodready/shared';
 
 function EmployeesPage() {
   const { user } = useAuth();
