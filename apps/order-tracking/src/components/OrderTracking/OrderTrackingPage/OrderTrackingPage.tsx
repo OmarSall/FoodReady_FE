@@ -2,21 +2,21 @@ import {
   getOrderTrackingStatus,
   type OrderTrackingResponse,
   type PublicOrderStatus,
-} from '../../../api/orderTrackingApi.ts';
+} from '../../../api/orderTrackingApi';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './OrderTrackingPage.module.css';
-import OrderTrackingLoading from './OrderTrackingLoading.tsx';
-import OrderTrackingError from './OrderTrackingError.tsx';
-import OrderTrackingStatus from './OrderTrackingStatus.tsx';
-import { mapOrderTrackingError } from './orderTrackingErrorMapper.ts';
+import OrderTrackingLoading from './OrderTrackingLoading';
+import OrderTrackingError from './OrderTrackingError';
+import OrderTrackingStatus from './OrderTrackingStatus';
+import { mapOrderTrackingError } from './orderTrackingErrorMapper';
+import { connectOrderTrackingStream } from '../../../api/orderTrackingStream';
 
 type ViewState =
   | { kind: 'loading' }
   | { kind: 'error'; message: string; canRetry: boolean }
   | { kind: 'success'; data: OrderTrackingResponse };
 
-const POLL_INTERVAL_MS = 10_000;
 
 function isFinalStatus(status: PublicOrderStatus) {
   return status === 'COMPLETED' || status === 'CANCELLED';
@@ -25,13 +25,13 @@ function isFinalStatus(status: PublicOrderStatus) {
 function OrderTrackingPage() {
   const { trackingId } = useParams<{ trackingId: string }>();
   const [state, setState] = useState<ViewState>({ kind: 'loading' });
-  const isActiveRef = useRef(true);
-  const intervalIdRef = useRef<number | null>(null);
+  const disconnectSseRef = useRef<null | (() => void)>(null);
+  const hasReceivedSseRef = useRef(false);
 
-  const stopPolling = useCallback(() => {
-    if (intervalIdRef.current !== null) {
-      window.clearInterval(intervalIdRef.current);
-      intervalIdRef.current = null;
+  const stopSse = useCallback(() => {
+    if (disconnectSseRef.current) {
+      disconnectSseRef.current();
+      disconnectSseRef.current = null;
     }
   }, []);
 
@@ -43,9 +43,14 @@ function OrderTrackingPage() {
           message: 'Missing tracking id.',
           canRetry: false,
         });
-        stopPolling();
+        stopSse();
         return;
       }
+
+      if (hasReceivedSseRef.current && !options?.showLoading) {
+        return;
+      }
+
       if (options?.showLoading) {
         setState({ kind: 'loading' });
       }
@@ -53,27 +58,47 @@ function OrderTrackingPage() {
       try {
         const result = await getOrderTrackingStatus(trackingId);
 
-        if (!isActiveRef.current) {
-          return;
-        }
 
         setState({ kind: 'success', data: result });
 
         if (isFinalStatus(result.status)) {
-          stopPolling();
+          stopSse();
         }
       } catch (error) {
-        if (!isActiveRef.current) {
-          return;
-        }
+
         setState(mapOrderTrackingError(error));
       }
     },
-    [trackingId, stopPolling],
+    [trackingId, stopSse],
   );
 
+  const startSse = useCallback(() => {
+    if (!trackingId) {
+      return;
+    }
+    if (disconnectSseRef.current) {
+      return;
+    }
+
+    disconnectSseRef.current = connectOrderTrackingStream(trackingId, {
+      onMessage: (data) => {
+
+        hasReceivedSseRef.current = true;
+
+        setState({ kind: 'success', data });
+
+        if (isFinalStatus(data.status)) {
+          stopSse();
+        }
+      },
+      onError: (err) => {
+        console.warn("[OrderTracking] SSE error", err);
+      },
+    });
+  }, [trackingId, stopSse]);
+
   useEffect(() => {
-    isActiveRef.current = true;
+    hasReceivedSseRef.current = false;
 
     if (!trackingId) {
       setState({
@@ -81,23 +106,17 @@ function OrderTrackingPage() {
         message: 'Missing tracking id.',
         canRetry: false,
       });
-      stopPolling();
-      return () => {
-        isActiveRef.current = false;
-      };
+      stopSse();
     }
 
     void fetchStatus({ showLoading: true });
 
-    intervalIdRef.current = window.setInterval(() => {
-      void fetchStatus();
-    }, POLL_INTERVAL_MS);
+    startSse();
 
     return () => {
-      isActiveRef.current = false;
-      stopPolling();
+      stopSse();
     };
-  }, [fetchStatus, stopPolling, trackingId]);
+  }, [fetchStatus, startSse, stopSse, trackingId]);
 
   const title = trackingId ? 'Track your order' : 'Invalid tracking link';
   const handleRetry =
@@ -124,7 +143,11 @@ function OrderTrackingPage() {
           <OrderTrackingError message={state.message} onRetry={handleRetry} />
         )}
 
-        {state.kind === 'success' && <OrderTrackingStatus data={state.data} />}
+        {state.kind === 'success' && (
+          <>
+            <OrderTrackingStatus data={state.data} />
+          </>
+          )}
       </section>
     </main>
   );

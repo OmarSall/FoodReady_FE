@@ -8,4 +8,6 @@ export const API_ENDPOINTS = {
 export const API_PATHS = {
   orderTrackingById: (trackingId: string) =>
     `${API_ENDPOINTS.ORDER_TRACKING}/${trackingId}`,
+  orderTrackingStreamById: (trackingId: string) =>
+    `${API_ENDPOINTS.ORDER_TRACKING}/${trackingId}/stream`,
 } as const;
