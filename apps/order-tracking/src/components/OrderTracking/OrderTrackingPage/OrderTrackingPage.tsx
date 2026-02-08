@@ -17,7 +17,6 @@ type ViewState =
   | { kind: 'error'; message: string; canRetry: boolean }
   | { kind: 'success'; data: OrderTrackingResponse };
 
-
 function isFinalStatus(status: PublicOrderStatus) {
   return status === 'COMPLETED' || status === 'CANCELLED';
 }
@@ -58,14 +57,12 @@ function OrderTrackingPage() {
       try {
         const result = await getOrderTrackingStatus(trackingId);
 
-
         setState({ kind: 'success', data: result });
 
         if (isFinalStatus(result.status)) {
           stopSse();
         }
       } catch (error) {
-
         setState(mapOrderTrackingError(error));
       }
     },
@@ -82,7 +79,6 @@ function OrderTrackingPage() {
 
     disconnectSseRef.current = connectOrderTrackingStream(trackingId, {
       onMessage: (data) => {
-
         hasReceivedSseRef.current = true;
 
         setState({ kind: 'success', data });
@@ -92,7 +88,7 @@ function OrderTrackingPage() {
         }
       },
       onError: (err) => {
-        console.warn("[OrderTracking] SSE error", err);
+        console.warn('[OrderTracking] SSE error', err);
       },
     });
   }, [trackingId, stopSse]);
@@ -147,7 +143,7 @@ function OrderTrackingPage() {
           <>
             <OrderTrackingStatus data={state.data} />
           </>
-          )}
+        )}
       </section>
     </main>
   );

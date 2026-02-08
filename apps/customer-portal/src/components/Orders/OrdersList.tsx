@@ -1,6 +1,6 @@
 import styles from './OrdersList.module.css';
 import type { Order, OrderStatus } from '../../api/ordersApi';
-import { buildOrderTrackingUrl } from './orderTrackingLink.ts';
+import { buildOrderTrackingUrl } from './orderTrackingLink';
 import QRCode from 'react-qr-code';
 
 interface OrdersListProps {

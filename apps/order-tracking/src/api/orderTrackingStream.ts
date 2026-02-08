@@ -1,10 +1,10 @@
-import type { OrderTrackingResponse } from './orderTrackingApi.ts';
-import { API_BASE_URL, API_PATHS } from '../constants/api.ts';
+import type { OrderTrackingResponse } from './orderTrackingApi';
+import { API_BASE_URL, API_PATHS } from '../constants/api';
 
 type Handlers = {
   onMessage: (data: OrderTrackingResponse) => void;
   onError: (error: unknown) => void;
-}
+};
 
 export function connectOrderTrackingStream(
   trackingId: string,
@@ -14,8 +14,8 @@ export function connectOrderTrackingStream(
   const eventSource = new EventSource(url);
 
   eventSource.onopen = () => {
-    console.log("[SSE] open", url);
-  }
+    console.log('[SSE] open', url);
+  };
 
   eventSource.onmessage = (event: MessageEvent<string>) => {
     try {
@@ -24,14 +24,14 @@ export function connectOrderTrackingStream(
     } catch (error) {
       handlers.onError(error);
     }
-  }
+  };
 
   eventSource.onerror = (error) => {
-    console.warn("[SSE] error", error);
+    console.warn('[SSE] error', error);
     handlers.onError(error);
   };
 
   return () => {
     eventSource.close();
-  }
+  };
 }
