@@ -1,7 +1,7 @@
 import {
   getOrderTrackingStatus,
   type OrderTrackingResponse,
-  type PublicOrderStatus,
+  isFinalPublicStatus,
 } from '../../../api/orderTrackingApi';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -11,19 +11,20 @@ import OrderTrackingError from './OrderTrackingError';
 import OrderTrackingStatus from './OrderTrackingStatus';
 import { mapOrderTrackingError } from './orderTrackingErrorMapper';
 import { connectOrderTrackingStream } from '../../../api/orderTrackingStream';
+import { type OrderTrackingErrorViewState, ViewStateKind } from './orderTrackingViewState';
 
 type ViewState =
-  | { kind: 'loading' }
-  | { kind: 'error'; message: string; canRetry: boolean }
-  | { kind: 'success'; data: OrderTrackingResponse };
+  | { kind: ViewStateKind.LOADING }
+  | OrderTrackingErrorViewState
+  | { kind: ViewStateKind.SUCCESS; data: OrderTrackingResponse };
 
-function isFinalStatus(status: PublicOrderStatus) {
-  return status === 'COMPLETED' || status === 'CANCELLED';
-}
+// function isFinalStatus(status: PublicOrderStatus) {
+//   return status === 'COMPLETED' || status === 'CANCELLED';
+// }
 
 function OrderTrackingPage() {
   const { trackingId } = useParams<{ trackingId: string }>();
-  const [state, setState] = useState<ViewState>({ kind: 'loading' });
+  const [state, setState] = useState<ViewState>({ kind: ViewStateKind.LOADING });
   const disconnectSseRef = useRef<null | (() => void)>(null);
   const hasReceivedSseRef = useRef(false);
 
@@ -38,7 +39,7 @@ function OrderTrackingPage() {
     async (options?: { showLoading?: boolean }) => {
       if (!trackingId) {
         setState({
-          kind: 'error',
+          kind: ViewStateKind.ERROR,
           message: 'Missing tracking id.',
           canRetry: false,
         });
@@ -51,15 +52,15 @@ function OrderTrackingPage() {
       }
 
       if (options?.showLoading) {
-        setState({ kind: 'loading' });
+        setState({ kind: ViewStateKind.LOADING });
       }
 
       try {
         const result = await getOrderTrackingStatus(trackingId);
 
-        setState({ kind: 'success', data: result });
+        setState({ kind: ViewStateKind.SUCCESS, data: result });
 
-        if (isFinalStatus(result.status)) {
+        if (isFinalPublicStatus(result.status)) {
           stopSse();
         }
       } catch (error) {
@@ -81,9 +82,9 @@ function OrderTrackingPage() {
       onMessage: (data) => {
         hasReceivedSseRef.current = true;
 
-        setState({ kind: 'success', data });
+        setState({ kind: ViewStateKind.SUCCESS, data });
 
-        if (isFinalStatus(data.status)) {
+        if (isFinalPublicStatus(data.status)) {
           stopSse();
         }
       },
@@ -98,7 +99,7 @@ function OrderTrackingPage() {
 
     if (!trackingId) {
       setState({
-        kind: 'error',
+        kind: ViewStateKind.ERROR,
         message: 'Missing tracking id.',
         canRetry: false,
       });
@@ -116,7 +117,7 @@ function OrderTrackingPage() {
 
   const title = trackingId ? 'Track your order' : 'Invalid tracking link';
   const handleRetry =
-    state.kind === 'error' && state.canRetry
+    state.kind === ViewStateKind.ERROR && state.canRetry
       ? () => void fetchStatus({ showLoading: true })
       : undefined;
 
@@ -133,13 +134,13 @@ function OrderTrackingPage() {
           </p>
         </header>
 
-        {state.kind === 'loading' && <OrderTrackingLoading />}
+        {state.kind === ViewStateKind.LOADING && <OrderTrackingLoading />}
 
-        {state.kind === 'error' && (
+        {state.kind === ViewStateKind.ERROR && (
           <OrderTrackingError message={state.message} onRetry={handleRetry} />
         )}
 
-        {state.kind === 'success' && (
+        {state.kind === ViewStateKind.SUCCESS && (
           <>
             <OrderTrackingStatus data={state.data} />
           </>

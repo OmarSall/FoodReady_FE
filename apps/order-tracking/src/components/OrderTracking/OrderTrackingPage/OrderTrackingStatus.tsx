@@ -1,14 +1,15 @@
 import styles from './OrderTrackingPage.module.css';
-import type {
-  OrderTrackingResponse,
+import {
+  type OrderTrackingResponse,
+  getProgressIndex,
   PublicOrderStatus,
 } from '../../../api/orderTrackingApi.ts';
 
 const STATUS_LABEL: Record<PublicOrderStatus, string> = {
-  PENDING: 'Pending',
-  IN_PROGRESS: 'In progress',
-  COMPLETED: 'Completed',
-  CANCELLED: 'Cancelled',
+  [PublicOrderStatus.PENDING]: "Pending",
+  [PublicOrderStatus.IN_PROGRESS]: "In progress",
+  [PublicOrderStatus.COMPLETED]: "Completed",
+  [PublicOrderStatus.CANCELLED]: "Cancelled",
 };
 
 type Props = {
@@ -16,6 +17,11 @@ type Props = {
 };
 
 function OrderTrackingStatus({ data }: Props) {
+  const progressIndex = getProgressIndex(data.status);
+
+  const isPendingActive = progressIndex !== null && progressIndex >= 0;
+  const isInProgressActive = progressIndex !== null && progressIndex >= 1;
+  const isCompletedActive = progressIndex !== null && progressIndex >= 2;
   return (
     <div className={styles.content}>
       <div className={styles.statusRow}>
@@ -34,11 +40,7 @@ function OrderTrackingStatus({ data }: Props) {
         <div className={styles.step}>
           <div
             className={styles.dot}
-            data-active={
-              data.status === 'PENDING' ||
-              data.status === 'IN_PROGRESS' ||
-              data.status === 'COMPLETED'
-            }
+            data-active={isPendingActive}
           />
           <span className={styles.stepLabel}>Pending</span>
         </div>
@@ -46,9 +48,7 @@ function OrderTrackingStatus({ data }: Props) {
         <div className={styles.step}>
           <div
             className={styles.dot}
-            data-active={
-              data.status === 'IN_PROGRESS' || data.status === 'COMPLETED'
-            }
+            data-active={isInProgressActive}
           />
           <span className={styles.stepLabel}>In progress</span>
         </div>
@@ -56,7 +56,7 @@ function OrderTrackingStatus({ data }: Props) {
         <div className={styles.step}>
           <div
             className={styles.dot}
-            data-active={data.status === 'COMPLETED'}
+            data-active={isCompletedActive}
           />
           <span className={styles.stepLabel}>Completed</span>
         </div>
