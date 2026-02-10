@@ -1,17 +1,13 @@
 import { ApiError } from '@foodready/shared';
+import { type OrderTrackingErrorViewState, ViewStateKind } from './orderTrackingViewState';
 
-export type OrderTrackingErrorViewState = {
-  kind: 'error';
-  message: string;
-  canRetry: boolean;
-};
 
 export function mapOrderTrackingError(
   error: unknown,
 ): OrderTrackingErrorViewState {
   if (error instanceof ApiError && error.statusCode === 404) {
     return {
-      kind: 'error',
+      kind: ViewStateKind.ERROR,
       message: 'Invalid or expired tracking link.',
       canRetry: false,
     };
@@ -19,7 +15,7 @@ export function mapOrderTrackingError(
 
   if (error instanceof ApiError && error.statusCode === 410) {
     return {
-      kind: 'error',
+      kind: ViewStateKind.ERROR,
       message: 'Tracking link has expired.',
       canRetry: false,
     };
@@ -27,14 +23,14 @@ export function mapOrderTrackingError(
 
   if (error instanceof Error) {
     return {
-      kind: 'error',
+      kind: ViewStateKind.ERROR,
       message: error.message,
       canRetry: true,
     };
   }
 
   return {
-    kind: 'error',
+    kind: ViewStateKind.ERROR,
     message: 'Could not load tracking status.',
     canRetry: true,
   };
