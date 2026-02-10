@@ -18,10 +18,6 @@ type ViewState =
   | OrderTrackingErrorViewState
   | { kind: ViewStateKind.SUCCESS; data: OrderTrackingResponse };
 
-// function isFinalStatus(status: PublicOrderStatus) {
-//   return status === 'COMPLETED' || status === 'CANCELLED';
-// }
-
 function OrderTrackingPage() {
   const { trackingId } = useParams<{ trackingId: string }>();
   const [state, setState] = useState<ViewState>({ kind: ViewStateKind.LOADING });
