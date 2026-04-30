@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { setPassword } from '../../../api/authenticationApi';
 import { ROUTES } from '../../../constants/routes';
 import SetPasswordForm, {
   type SetPasswordFormValues,
 } from './SetPasswordForm/SetPasswordForm';
 import styles from './SetPasswordPage.module.css';
+import { useInviteToken } from './useInviteToken.ts';
 
 function SetPasswordPage() {
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const token = searchParams.get('token');
+  const token = useInviteToken();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
