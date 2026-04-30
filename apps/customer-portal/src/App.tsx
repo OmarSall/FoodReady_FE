@@ -10,6 +10,7 @@ import OrdersPage from './components/Orders/OrdersPage';
 import EmployeesPage from './components/Employees/EmployeesPage';
 import NotFoundPage from './components/NotFoundPage/NotFoundPage';
 import { ROUTES } from './constants/routes';
+import SetPasswordPage from './components/Auth/SetPasswordPage/SetPasswordPage.tsx';
 
 function App() {
   return (
@@ -22,6 +23,11 @@ function App() {
           element={<CompanyRegistrationPage />}
         />
       </Route>
+
+      <Route
+        path={ROUTES.SET_PASSWORD}
+        element={<SetPasswordPage />}
+      />
 
       <Route element={<ProtectedRoute />}>
         <Route element={<DashboardLayout />}>
