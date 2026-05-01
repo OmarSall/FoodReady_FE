@@ -5,5 +5,6 @@ export const ROUTES = {
   ORDERS: '/orders',
   EMPLOYEES: '/employees',
   TRACK_ORDER: '/order-tracking/:trackingId',
+  SET_PASSWORD: '/set-password',
   NOT_FOUND: '*',
 } as const;

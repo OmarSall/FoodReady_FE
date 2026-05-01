@@ -6,6 +6,7 @@ export const API_ENDPOINTS = {
     LOGIN: '/authentication/log-in',
     LOGOUT: '/authentication/log-out',
     CURRENT_USER: '/authentication',
+    SET_PASSWORD: '/authentication/set-password',
   },
   ORDERS: '/orders',
   EMPLOYEES: '/employees',

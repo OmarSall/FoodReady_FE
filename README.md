@@ -91,3 +91,12 @@ This separation keeps the public tracking flow isolated from authenticated user 
 Dependencies are managed at the workspace level using a single root node_modules and package-lock.json.
 
 Each app can be built and deployed independently.
+
+## Set Password Page
+
+The `/set-password` route handles employee account activation.
+It is part of the **Employee Email Invitation** feature.
+
+For full specification see the
+[PRD](https://github.com/YOUR_USERNAME/foodready-be/blob/feature/employee-email-invitation/docs/PRD-employee-email-invitation.md)
+in the backend repository.

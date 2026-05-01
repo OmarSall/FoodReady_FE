@@ -7,6 +7,11 @@ export interface LogInPayload {
   password: string;
 }
 
+export interface SetPasswordPayload {
+  token: string;
+  password: string;
+}
+
 export function logIn(payload: LogInPayload): Promise<AuthenticatedUser> {
   return request<AuthenticatedUser>(
     'POST',
@@ -24,4 +29,10 @@ export function getCurrentUser(): Promise<AuthenticatedUser> {
     'GET',
     API_ENDPOINTS.AUTHENTICATION.CURRENT_USER,
   );
+}
+
+export function setPassword(payload: SetPasswordPayload): Promise<void> {
+  return request('POST', API_ENDPOINTS.AUTHENTICATION.SET_PASSWORD, {
+    body: payload,
+  });
 }

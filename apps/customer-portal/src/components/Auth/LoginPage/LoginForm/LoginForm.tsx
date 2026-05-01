@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import styles from './LoginForm.module.css';
 import FormInput from '../../../Form/FormInput';
+import { useLocation } from 'react-router-dom';
 
 export interface LoginFormValues {
   email: string;
@@ -14,6 +15,8 @@ interface LoginFormProps {
 }
 
 function LoginForm({ onSubmit, isSubmitting, errorMessage }: LoginFormProps) {
+  const location = useLocation();
+  const inviteSuccess = location.state?.inviteSuccess === true;
   const {
     register,
     handleSubmit,
@@ -27,6 +30,13 @@ function LoginForm({ onSubmit, isSubmitting, errorMessage }: LoginFormProps) {
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <h1 className={styles.title}>Log in</h1>
+
+      {inviteSuccess && (
+        <div className={styles.success}>
+          Password set successfully. You can now log in.
+        </div>
+      )}
+
       <FormInput
         id="email"
         label="Email"
